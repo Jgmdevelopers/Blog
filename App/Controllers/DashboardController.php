@@ -9,7 +9,7 @@ class DashboardController {
             session_start();
         }
         if (!isset($_SESSION['user_id'])) {
-            header("Location: ../Auth/loginForm");
+            header("Location: Auth/loginForm");
             exit();
         }
     }
@@ -30,7 +30,7 @@ class DashboardController {
         // Verifica que el usuario esté autenticado
        
         if (!isset($_SESSION['user_id'])) {
-            header("Location: ../Auth/loginForm");
+            header("Location: Auth/loginForm");
             exit();
         }
 

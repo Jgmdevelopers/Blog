@@ -83,6 +83,7 @@ class PostController {
         
             if ($postModel->addPost($title, $content, $user_id, $original_image_path, $thumbnail_path)) {
                 // Publicación agregada correctamente
+                $_SESSION['success_message'] = "¡La publicación se agregó correctamente!";
                 header("Location: ../dashboard");
                 exit();
             } else {
