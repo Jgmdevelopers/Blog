@@ -19,14 +19,15 @@ class Post {
         return $this->db->single();
     }
 
-    // Método para agregar una nueva publicación
-    public function addPost($title, $content, $user_id) {
-        $this->db->query('INSERT INTO posts (title, content, user_id) VALUES (:title, :content, :user_id)');
+    // Método para agregar una publicación
+    public function addPost($title, $content, $user_id, $image_path = null) {
+        $this->db->query('INSERT INTO posts (title, content, user_id, image_path) VALUES (:title, :content, :user_id, :image_path)');
         $this->db->bind(':title', $title);
         $this->db->bind(':content', $content);
         $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':image_path', $image_path);
+
         return $this->db->execute();
     }
-
     // Otros métodos para actualizar, eliminar publicaciones, etc., según sea necesario
 }

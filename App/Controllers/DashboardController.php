@@ -1,4 +1,6 @@
 <?php
+require_once '../App/Models/Post.php';
+
 class DashboardController {
 
     public function __construct() {
@@ -22,5 +24,21 @@ class DashboardController {
 
         // Mostrar la vista del dashboard
         include_once '../App/Views/dashboard.php';
+    }
+    
+    public function profile() {
+        // Verifica que el usuario esté autenticado
+       
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: ../Auth/loginForm");
+            exit();
+        }
+
+        $user_id = $_SESSION['user_id'];
+        $postModel = new Post();
+        $posts = $postModel->getAllPosts(); 
+
+        // Mostrar la vista del dashboard
+        include_once '../App/Views/profile.php';
     }
 }
