@@ -36,7 +36,7 @@ class DashboardController {
 
         $user_id = $_SESSION['user_id'];
         $postModel = new Post();
-        $posts = $postModel->getAllPosts(); 
+        $posts = $postModel->getAllPostsPrivate(); 
 
         // Mostrar la vista del dashboard
         include_once '../App/Views/profile.php';

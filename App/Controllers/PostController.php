@@ -4,12 +4,13 @@ require_once '../App/Models/Post.php';
 class PostController {
 
     public function store() {
-        session_start(); // Asegúrate de iniciar la sesión aquí
-
+        session_start();
+    
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Procesar datos del formulario de agregar publicación
             $title = $_POST['title'];
             $content = $_POST['content'];
+            $visibility = $_POST['visibility']; // Obtener la visibilidad del formulario
             $user_id = $_SESSION['user_id']; // Obtener el ID del usuario de la sesión
         
             $original_image_path = null;
@@ -45,43 +46,56 @@ class PostController {
                             $original_image_path = $target_file;
         
                             // Crear miniatura
-                            list($width, $height) = getimagesize($original_image_path);
-                            $new_width = 100; // Ancho deseado para la miniatura
-                            $new_height = ($height / $width) * $new_width;
-                            $thumb = imagecreatetruecolor($new_width, $new_height);
-                            $source = imagecreatefromjpeg($original_image_path); // Cambia a la función correspondiente si no es JPEG
-                            
-                            // Comprobar la extensión y crear la miniatura adecuadamente
+                            $source = null;
                             if ($image_extension == 'jpg' || $image_extension == 'jpeg') {
                                 $source = imagecreatefromjpeg($original_image_path);
                             } elseif ($image_extension == 'png') {
                                 $source = imagecreatefrompng($original_image_path);
                             }
-                            
-                            imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
         
-                            // Guardar miniatura
-                            imagejpeg($thumb, $thumbnail_file);
-                            imagedestroy($thumb);
+                            if ($source !== null) {
+                                list($width, $height) = getimagesize($original_image_path);
+                                $new_width = 100; // Ancho deseado para la miniatura
+                                $new_height = ($height / $width) * $new_width;
+                                $thumb = imagecreatetruecolor($new_width, $new_height);
+                                
+                                // Comprobar si la miniatura se creó correctamente
+                                if ($thumb !== false) {
+                                    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
         
-                            // La ruta de la miniatura debe ser relativa a la carpeta Public
-                            $thumbnail_path = substr($thumbnail_file, 3); // Elimina '../' del principio
+                                    // Guardar miniatura
+                                    imagejpeg($thumb, $thumbnail_file);
+                                    imagedestroy($thumb);
+        
+                                    // La ruta de la miniatura debe ser relativa a la carpeta Public
+                                    $thumbnail_path = substr($thumbnail_file, 3); // Elimina '../' del principio
+                                } else {
+                                    echo "Error al crear la miniatura.";
+                                    exit();
+                                }
+                            } else {
+                                echo "Error al crear la imagen desde el archivo.";
+                                exit();
+                            }
                         } else {
                             // Error al mover el archivo
                             echo "Error al subir la imagen.";
+                            exit();
                         }
                     } else {
                         echo "El archivo no es una imagen válida.";
+                        exit();
                     }
                 } else {
                     echo "Solo se permiten imágenes de tipo JPG, JPEG y PNG.";
+                    exit();
                 }
             }
         
             // Validar y agregar publicación
             $postModel = new Post();
         
-            if ($postModel->addPost($title, $content, $user_id, $original_image_path, $thumbnail_path)) {
+            if ($postModel->addPost($title, $content, $user_id, $original_image_path, $thumbnail_path, $visibility)) {
                 // Publicación agregada correctamente
                 $_SESSION['success_message'] = "¡La publicación se agregó correctamente!";
                 header("Location: ../dashboard");
@@ -94,6 +108,47 @@ class PostController {
             // Mostrar formulario de agregar publicación
             include_once '../app/views/add_post.php';
         }
+    }
+    
+
+    public function PostsGlobal() {
+        session_start();
+
+        // Verificar que el usuario esté autenticado
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ../auth/login.php');
+            exit();
+        }
+
+        // Obtener el ID del usuario
+        $user_id = $_SESSION['user_id'];
+
+        // Validar y obtener publicaciones
+        $postModel = new Post();
+        $posts = $postModel->getPostGlobal($user_id);
+
+        // Mostrar publicaciones en la vista
+        include_once '../app/views/public_post.php';
+    }
+
+    public function PostsProfile() {
+        session_start();
+
+        // Verificar que el usuario esté autenticado
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ../auth/login.php');
+            exit();
+        }
+
+        // Obtener el ID del usuario
+        $user_id = $_SESSION['user_id'];
+
+        // Validar y obtener publicaciones
+        $postModel = new Post();
+        $posts = $postModel->getAllPostsPrivate($user_id);
+
+        // Mostrar publicaciones en la vista
+        include_once '../app/views/profile.php';
     }
 }
 ?>

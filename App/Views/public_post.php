@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>CoderBlog</title>
     <!-- Agrega tus estilos CSS aquí -->
     <style>
         /* Estilos generales */
@@ -36,13 +36,13 @@
         .post {
             border: 1px solid #ddd;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin: 20px;
             padding: 15px;
-            background-color: #fff;
             text-align: center;
+            background-color: #d1d1d1;
             /* Centrar contenido */
         }
-
+     
         .post h4 {
             margin-top: 0;
             font-size: 24px;
@@ -65,7 +65,7 @@
             /* Espacio debajo de la imagen */
         }
 
-        .post-info {
+            .post-info {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -119,19 +119,26 @@
 
 <body>
     <header>
-        <h2>Mis Posts</h2>
+        <h2>Global</h2>
     </header>
 
-    <?php include 'components/menu.php'; ?>
+    <?php
+    include 'components/menu.php';
+    ?>
+    <dic class="container" style="text-align: center;">
+        <h3>Todas las publicaciones:</h3>
+    </dic>
 
     <div class="container">
 
 
-        <h3>Tus publicaciones:</h3>
-
+        
         <?php if (!empty($posts)) : ?>
             <?php foreach ($posts as $post) : ?>
                 <div class="post">
+                    
+                    <h3>Publicado por: <?php echo htmlspecialchars($post['username']); ?></h3> <!-- Nombre de usuario -->
+               
                     <h4><?php echo htmlspecialchars($post['title']); ?></h4>
                     <?php if ($post['image_path']) : ?>
                         <?php
@@ -149,9 +156,9 @@
                         <img src="<?php echo htmlspecialchars($thumbnail_path_original); ?>" alt="Miniatura del post">
                     <?php endif; ?>
                     <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
-                    <div class="post-info">
+                    <div class="post-info" style="display: flex; flex-direction: column;">
                         <p>Publicado el <?php echo htmlspecialchars($post['created_at']); ?></p>
-                       
+                        <p>Visibilidad <?php echo htmlspecialchars($post['visibility']); ?></p>
                     </div>
                     <div class="footer-post">
                         <div class="actions">
@@ -196,10 +203,7 @@
                             margin-top: 10px;
                         }
 
-                        .post {
-                            background-color: #d1d1d1;
-                        }
-
+                
                         .actions {
                             display: flex;
                             justify-content: space-around;
