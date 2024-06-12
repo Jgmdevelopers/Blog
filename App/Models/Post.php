@@ -64,5 +64,50 @@ class Post
 
         return $this->db->execute();
     }
-    // Otros métodos para actualizar, eliminar publicaciones, etc., según sea necesario
+
+    /* recupera info para saber si el usuario dueño del post es amigo del usuario actual */
+    public function getPostsWithFriendInfo($user_id)
+    {
+        $this->db->query('
+            SELECT p.*, u.username,
+            CASE 
+                WHEN p.user_id = :user_id THEN true 
+                WHEN f.friend_id IS NOT NULL THEN true 
+                ELSE false 
+            END as is_friend
+            FROM posts p
+            LEFT JOIN friends f ON p.user_id = f.friend_id AND f.user_id = :user_id
+            LEFT JOIN users u ON p.user_id = u.id  -- Agrega un LEFT JOIN para obtener la información del usuario
+            WHERE p.visibility = "public"
+                OR (p.visibility = "friends" AND p.user_id IN (SELECT friend_id FROM friends WHERE user_id = :user_id))
+                OR (p.visibility = "friends" AND p.user_id IN (SELECT user_id FROM friends WHERE friend_id = :user_id))
+                OR (p.visibility = "private" AND p.user_id = :user_id)
+            ORDER BY p.created_at DESC');
+
+        $this->db->bind(':user_id', $user_id);
+
+        return $this->db->resultSet();
+    }
+
+    // Función para obtener el número de Me gusta de un post
+    public function obtenerNumeroDeLikes($postId)
+    {
+        $this->db->query('SELECT COUNT(*) AS num_likes FROM likes WHERE post_id = :post_id');
+        $this->db->bind(':post_id', $postId);
+        $result = $this->db->single();
+
+        return $result['num_likes']; // Devolver el número de Me gusta
+    }
+
+    // Función para obtener el número de comentarios de un post
+    public function obtenerNumeroDeComentarios($postId)
+    {
+        $this->db->query('SELECT COUNT(*) AS num_comments FROM comments WHERE post_id = :post_id');
+        $this->db->bind(':post_id', $postId);
+        $result = $this->db->single();
+
+        return $result['num_comments']; // Devolver el número de comentarios
+    }
+
+    
 }
