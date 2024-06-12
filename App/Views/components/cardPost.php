@@ -2,11 +2,19 @@
     <?php foreach ($posts as $post) : ?>
         <div class="post">
 
-            <h3>Publicado por:
-                <a href="">
-                    <?php echo htmlspecialchars($post['username']); ?> <!-- Nombre de usuario -->
-                </a>
-            </h3>
+            <?php if (!isset($isProfile)) : ?>
+                <h3>Publicado por:
+                    <a href="">
+                        <?php
+                        if ($post['user_id'] === $user_id) {
+                            echo "Tú";
+                        } else {
+                            echo htmlspecialchars($post['username']);
+                        }
+                        ?> <!-- Nombre de usuario -->
+                    </a>
+                </h3>
+            <?php endif; ?>
             <h4><?php echo htmlspecialchars($post['title']); ?></h4>
 
             <?php if ($post['image_path']) : ?>
