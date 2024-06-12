@@ -58,7 +58,7 @@
         }
 
         .post img {
-            max-width: 100%;
+            width: 500px;
             height: auto;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -123,8 +123,8 @@
     </header>
     <div class="container_user">
         <div class="top-section">
-            <p>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-            <p><a href="../Auth/logout">Cerrar sesión</a></p>
+            <h2>Perfil de <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
+            <p><a href="../Auth/logout" class="logout-link">Cerrar sesión</a></p>
         </div>
         <div class="bottom-section">
             <p><a href="../dashboard/index">
@@ -154,8 +154,7 @@
         </div>
     </div>
     <div class="container">
-        <h2>Perfil de <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
-        <p><a href="../Auth/logout" class="logout-link">Cerrar sesión</a></p>
+
 
         <h3>Tus publicaciones:</h3>
 
@@ -173,13 +172,70 @@
 
                         // Ruta completa de la miniatura
                         $thumbnail_path = '../../Public/thumb/' . $thumbnail_filename;
+                        // Ruta completa de la original
+                        $thumbnail_path_original = '../../Public/uploads/' . $image_filename;
                         ?>
-                        <img src="<?php echo htmlspecialchars($thumbnail_path); ?>" alt="Miniatura del post">
+                        <img src="<?php echo htmlspecialchars($thumbnail_path_original); ?>" alt="Miniatura del post">
                     <?php endif; ?>
                     <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
                     <div class="post-info">
                         <p>Publicado el <?php echo htmlspecialchars($post['created_at']); ?></p>
                     </div>
+                    <div class="footer-post">
+                        <div class="actions">
+                            <a href="#" class="action-link">Me Gusta</a>
+                            <a href="#" class="action-link">Comentarios</a>
+                            <!-- <a href="#" class="action-link">Enviar</a>
+                            <a href="#" class="action-link">Compartir</a> -->
+                        </div>
+                    </div>
+                    <style>
+
+
+                        .footer-post {
+                            padding: 10px 15px;
+                            border-top: 1px solid #e1e1e1;
+                            background-color: #f9f9f9;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 10px;
+                        }
+
+                        .post{
+                            background-color: #d1d1d1;
+                        }
+
+                        .actions {
+                            display: flex;
+                            justify-content: space-around;
+                            width: 100%;
+                        }
+
+                        .action-link {
+                            text-decoration: none;
+                            color: #4267B2;
+                            font-weight: bold;
+                            padding: 10px 15px;
+                            transition: background-color 0.3s, color 0.3s;
+                            flex-grow: 1;
+                            text-align: center;
+                        }
+
+                        .action-link:hover {
+                            background-color: #e1e1e1;
+                            color: #29487d;
+                            border-radius: 5px;
+                        }
+
+                        .action-link:active {
+                            background-color: #d1d1d1;
+                        }
+
+                        .actions .action-link:not(:last-child) {
+                            border-right: 1px solid #e1e1e1;
+                        }
+                    </style>
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
