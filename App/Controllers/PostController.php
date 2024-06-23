@@ -1,5 +1,7 @@
 <?php
 require_once '../App/Models/Post.php';
+require_once '../App/Models/User.php';
+require_once '../App/Models/Friendship.php';
 
 class PostController
 {
@@ -130,6 +132,10 @@ class PostController
         $postModel = new Post();
         $posts = $postModel->getPostsWithFriendInfo($user_id);
 
+        // Obtener todos los usuarios excepto el usuario actual
+        $userModel = new User();
+        $users = $userModel->getAllUsersExcept($user_id);
+
         // Array para almacenar el número de likes y comentarios de cada post
         $likesCounts = [];
         $commentsCounts = [];
@@ -147,9 +153,6 @@ class PostController
         // Mostrar publicaciones en la vista
         include_once '../app/views/public_post.php';
     }
-
-
-
 
     public function PostsProfile()
     {

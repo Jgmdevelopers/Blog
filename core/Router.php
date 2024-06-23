@@ -16,26 +16,27 @@ class Router {
 
         // Divide la URL en segmentos usando "/" como delimitador
         $url = explode('/', $url);
-
         // Obtiene el nombre del controlador a partir del primer segmento de la URL
         $controllerName = ucfirst(array_shift($url)) . 'Controller';
-
         // Determina el método a llamar, si no se especifica, usa 'index' por defecto
         $method = empty($url[0]) ? 'index' : strtolower($url[0]);
-
         // Ruta al archivo del controlador basado en el nombre del controlador obtenido
         $file = "../App/Controllers/$controllerName.php";
+      
 
         // Verifica si el archivo del controlador existe
         if (file_exists($file)) {
+            echo "archivo del controlador encontrado: " . $file . "<br>";
+
             // Incluye el archivo del controlador
             require_once($file);
             // Crea una instancia del controlador
             $controller = new $controllerName;
-
+           
             // Verifica si el método existe en el controlador
             if (method_exists($controller, $method)) {
                 // Llama al método del controlador con los parámetros restantes de la URL
+                
                 call_user_func_array([$controller, $method], $url);
             } else {
                 // Si el método no existe en el controlador, devuelve un error 404

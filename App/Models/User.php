@@ -47,4 +47,11 @@ class User {
         }
         return false; // Usuario o contraseña incorrectos
     }
+
+    public function getAllUsersExcept($userId) {
+        $query = 'SELECT id, username FROM users WHERE id != :userId';
+        $this->db->query($query);
+        $this->db->bind(':userId', $userId);
+        return $this->db->resultSet();
+    }
 }

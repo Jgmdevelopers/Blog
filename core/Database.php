@@ -77,4 +77,8 @@ class Database {
     public function rowCount() {
         return $this->stmt->rowCount();
     }
+    // Método para obtener la conexión actual a la base de datos
+    public function getConnection() {
+        return $this->dbh;
+    }
 }

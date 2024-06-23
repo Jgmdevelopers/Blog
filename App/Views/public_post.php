@@ -233,22 +233,7 @@
             <?php include 'components/cardPost.php'; ?>
         </div>
         <div class="container_amigos">
-            <h2>Personas que quizás conozcas</h2>
-            <?php
-            // Ejemplo de lista de personas
-            $personas = [
-                ["nombre" => "Juan Pérez"],
-                ["nombre" => "María García"],
-                ["nombre" => "Carlos Sánchez"],
-            ];
-
-            foreach ($personas as $persona) {
-                echo '<div class="amigo">';
-                echo '<span>' . $persona['nombre'] . '</span>';
-                echo '<button>Agregar</button>';
-                echo '</div>';
-            }
-            ?>
+            <?php include 'components/amigosQuizasConozca.php'?>
         </div>
     </div>
 
