@@ -26,7 +26,6 @@ class Router {
 
         // Verifica si el archivo del controlador existe
         if (file_exists($file)) {
-            echo "archivo del controlador encontrado: " . $file . "<br>";
 
             // Incluye el archivo del controlador
             require_once($file);

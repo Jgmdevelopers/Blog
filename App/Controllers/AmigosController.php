@@ -21,14 +21,16 @@ class AmigosController {
 
         // Verificar si ya existe una solicitud de amistad pendiente o amistad aceptada
         if ($friendshipModel->areFriends($userId, $friendId)) {
+            
             // Si ya son amigos, redirige o muestra mensaje de error
             header('Location: ../dashboard/index');
             exit();
         } else {
+           
             // Agregar una nueva solicitud de amistad
             if ($friendshipModel->addFriendRequest($userId, $friendId)) {
                 // Solicitud de amistad enviada con éxito
-                header('Location: ../dashboard/index');
+                header('Location: ../post/PostsGlobal');
                 exit();
             } else {
                 // Error al enviar la solicitud de amistad
@@ -52,6 +54,7 @@ class AmigosController {
 
         // Instancia del modelo Friendship
         $friendshipModel = new Friendship();
+        
 
         // Verificar si existe una relación de amistad para bloquear
         if ($friendshipModel->areFriends($userId, $friendId)) {
@@ -70,4 +73,6 @@ class AmigosController {
             exit();
         }
     }
+
 }
+?>

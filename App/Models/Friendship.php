@@ -52,4 +52,13 @@ class Friendship {
 
         return $this->db->execute();
     }
+
+    public function getFriendshipStatus($userId, $friendId) {
+        $query = 'SELECT status FROM friendships WHERE (user_id = :userId AND friend_id = :friendId) OR (user_id = :friendId AND friend_id = :userId)';
+        $this->db->query($query);
+        $this->db->bind(':userId', $userId);
+        $this->db->bind(':friendId', $friendId);
+        $row = $this->db->single();
+        return $row ? $row['status'] : ''; // Devuelve el estado de amistad si existe, de lo contrario devuelve vacío
+    }
 }

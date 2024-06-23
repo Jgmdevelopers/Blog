@@ -115,8 +115,7 @@ class PostController
     }
 
 
-    public function PostsGlobal()
-    {
+    public function PostsGlobal() {
         session_start();
 
         // Verificar que el usuario esté autenticado
@@ -128,7 +127,7 @@ class PostController
         // Obtener el ID del usuario
         $user_id = $_SESSION['user_id'];
 
-        // Validar y obtener publicaciones con información sobre amigos
+        // Obtener información sobre publicaciones y amigos con estados de amistad
         $postModel = new Post();
         $posts = $postModel->getPostsWithFriendInfo($user_id);
 
@@ -136,24 +135,29 @@ class PostController
         $userModel = new User();
         $users = $userModel->getAllUsersExcept($user_id);
 
-        // Array para almacenar el número de likes y comentarios de cada post
-        $likesCounts = [];
-        $commentsCounts = [];
+        // Filtrar usuarios para excluir amigos y el usuario actual
+        $filteredUsers = [];
+        
+         // Consultar el estado de amistad para cada usuario
+         $friendshipModel = new Friendship();
+         $availableUsers = [];
+         foreach ($users as $user) {
+             $friendshipStatus = $friendshipModel->getFriendshipStatus($user_id, $user['id']);
+             if ($friendshipStatus === 'pending') {
+                 $user['estado_amistad'] = 'pendiente';
+             } elseif ($friendshipStatus === 'blocked') {
+                 // No hacemos nada si está bloqueado
+                 continue;
+             } else {
+                 $user['estado_amistad'] = 'disponible';
+             }
+             $availableUsers[] = $user;
+         }
+ 
 
-        // Obtener el número de likes y comentarios para cada post
-        foreach ($posts as $post) {
-            $postId = $post['id'];
-            $numLikes = $postModel->obtenerNumeroDeLikes($postId);
-            $numComments = $postModel->obtenerNumeroDeComentarios($postId);
-
-            // Guardar el número de likes y comentarios en el array
-            $likesCounts[$postId] = $numLikes;
-            $commentsCounts[$postId] = $numComments;
-        }
-        // Mostrar publicaciones en la vista
+        // Mostrar publicaciones, amigos y usuarios en la vista
         include_once '../app/views/public_post.php';
     }
-
     public function PostsProfile()
     {
         session_start();
