@@ -163,6 +163,55 @@
         .actions .action-link:not(:last-child) {
             border-right: 1px solid #e1e1e1;
         }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .menu {
+            margin-bottom: 20px;
+        }
+        .clima {
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-top: 1px solid #ddd;
+        }
+        .container {
+            width: 55%;
+            padding: 20px;
+        }
+        .container_amigos {
+            width: 20%;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-left: 1px solid #ddd;
+        }
+        .container_amigos h2 {
+            margin-top: 0;
+        }
+        .amigo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .amigo button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .amigo button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -171,20 +220,61 @@
         <h2>Global</h2>
     </header>
 
-    <?php
-    include 'components/menu.php';
-    ?>
-    <dic class="container" style="text-align: center;">
-        <h3>Todas las publicaciones:</h3>
-    </dic>
+    <div class="main-container">
+        <div class="menu-container">
+            <div class="menu">
+                <?php include 'components/menu.php'; ?>
+            </div>
+            <div class="clima" id="clima">
+                <p>Cargando el clima...</p>
+            </div>
+        </div>
+        <div class="container">
+            <?php include 'components/cardPost.php'; ?>
+        </div>
+        <div class="container_amigos">
+            <h2>Personas que quizás conozcas</h2>
+            <?php
+            // Ejemplo de lista de personas
+            $personas = [
+                ["nombre" => "Juan Pérez"],
+                ["nombre" => "María García"],
+                ["nombre" => "Carlos Sánchez"],
+            ];
 
-    <div class="container">
-
-        <?php
-        include 'components/cardPost.php';
-        ?>
-
+            foreach ($personas as $persona) {
+                echo '<div class="amigo">';
+                echo '<span>' . $persona['nombre'] . '</span>';
+                echo '<button>Agregar</button>';
+                echo '</div>';
+            }
+            ?>
+        </div>
     </div>
+
+    <script>
+        // JavaScript para obtener el clima
+        document.addEventListener('DOMContentLoaded', function () {
+            const climaDiv = document.getElementById('clima');
+
+            // Reemplaza 'YOUR_API_KEY' con tu clave de API y 'CITY_NAME' con la ciudad que deseas consultar
+            const apiKey = 'YOUR_API_KEY';
+            const city = 'CITY_NAME';
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=es`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.main.temp;
+                    const description = data.weather[0].description;
+                    climaDiv.innerHTML = `<p>Clima en ${city}: ${temp}°C, ${description}</p>`;
+                })
+                .catch(error => {
+                    climaDiv.innerHTML = '<p>No se pudo cargar el clima.</p>';
+                });
+        });
+    </script>
+
 </body>
 
 </html>

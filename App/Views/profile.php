@@ -177,9 +177,10 @@
 
 
         <h3>Tus publicaciones:</h3>
+        
         <?php
-        $isProfile = true;
-        include 'components/cardPost.php';
+            $isProfile = true;
+            include 'components/cardPost.php';
         ?>
      
     </div>
