@@ -1,6 +1,3 @@
-Mis disculpas por eso. Agregaré bordes a las secciones que mencionaste:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,21 +29,47 @@ Mis disculpas por eso. Agregaré bordes a las secciones que mencionaste:
         }
 
         .menu-container {
+            width: 20%;
             display: flex;
             flex-direction: column;
-            width: 20%;
-            background-color: #f0f0f0;
-            border: 1px solid #ddd; /* Borde añadido */
-            border-radius: 8px; /* Borde añadido */
-            padding: 10px; /* Espaciado interno */
-            margin-right: 20px; /* Espacio entre el menú y el contenido */
+            border-radius: 8px;
         }
 
+        .menu {
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
         .clima {
             padding: 10px;
-            background-color: #e0e0e0;
-            border: 1px solid #ddd; /* Borde añadido */
-            border-radius: 8px; /* Borde añadido */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container_amigos {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+        }
+
+        .solicitudes {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .amigos{
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             margin-bottom: 20px;
         }
 
@@ -54,20 +77,11 @@ Mis disculpas por eso. Agregaré bordes a las secciones que mencionaste:
             width: 55%;
             background-color: #fff;
             padding: 20px;
-            border: 1px solid #ddd; /* Borde añadido */
-            border-radius: 8px; /* Borde añadido */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .container_amigos {
-            width: 20%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd; /* Borde añadido */
-            border-radius: 8px; /* Borde añadido */
-        }
+      
 
         .container_amigos h2 {
             margin-top: 0;
@@ -92,9 +106,7 @@ Mis disculpas por eso. Agregaré bordes a las secciones que mencionaste:
             background-color: #0056b3;
         }
 
-        .solicitudes {
-            margin-bottom: 20px;
-        }
+     
 
         /* Estilos del post */
         .post {
@@ -188,6 +200,3 @@ Mis disculpas por eso. Agregaré bordes a las secciones que mencionaste:
 </body>
 
 </html>
-```
-
-Ahora, todas las secciones tienen bordes para una mejor identificación visual.

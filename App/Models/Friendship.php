@@ -119,10 +119,36 @@ class Friendship
 
     // recuperar amigos aceptados:
     public function getAcceptedFriends($user_id) {
-        $query = "SELECT u.id, u.username FROM users u INNER JOIN friendships f ON u.id = f.friend_id WHERE f.user_id = :user_id AND f.status = 'accepted'";
+        $query = "SELECT friend_id FROM friendships WHERE user_id = :user_id AND status = 'accepted'
+                  UNION
+                  SELECT user_id FROM friendships WHERE friend_id = :user_id AND status = 'accepted'";
         $this->db->query($query);
         $this->db->bind(':user_id', $user_id);
-        return $this->db->resultSet();
+        $result = $this->db->resultSet();
+    
+        // Obtener IDs de amigos
+        $friendIDs = [];
+        foreach ($result as $friend) {
+            if ($friend['friend_id'] != $user_id) {
+                $friendIDs[] = $friend['friend_id'];
+            }
+        }
+    
+        // Verificar si hay IDs de amigos antes de ejecutar la consulta
+        if (!empty($friendIDs)) {
+            // Consulta para obtener detalles de usuario basados en los IDs de amigos
+            $queryUsers = "SELECT id, username FROM users WHERE id IN (" . implode(',', $friendIDs) . ")";
+            $this->db->query($queryUsers);
+            $friends = $this->db->resultSet();
+        } else {
+            $friends = [];
+        }
+    
+        return $friends;
     }
+    
+    
+    
+    
     
 }
