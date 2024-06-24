@@ -1,4 +1,4 @@
-<h2>Usuarios Disponibles para Agregar como Amigos</h2>
+<h2>Personas que quizás conozcas</h2>
 <ul>
     <?php foreach ($availableUsers as $user): ?>
         <?php if ($user['estado_amistad'] === 'disponible'): ?>
