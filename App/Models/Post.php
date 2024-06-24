@@ -92,28 +92,29 @@ class Post
         return $result['num_comments']; // Devolver el número de comentarios
     }
 
-    // Método para obtener información adicional de amigo sobre los posts
-    public function getPostsWithFriendInfo($user_id)
-    {
-        $this->db->query('
-            SELECT p.*, u.username,
-            CASE 
-                WHEN p.user_id = :user_id THEN true 
-                WHEN f.friend_id IS NOT NULL THEN true 
-                ELSE false 
-            END as is_friend
-            FROM posts p
-            LEFT JOIN friendships f ON p.user_id = f.friend_id AND f.user_id = :user_id
-            LEFT JOIN users u ON p.user_id = u.id
-            WHERE p.visibility = "public"
-                OR (p.visibility = "friends" AND p.user_id IN (SELECT friend_id FROM friendships WHERE user_id = :user_id))
-                OR (p.visibility = "friends" AND p.user_id IN (SELECT user_id FROM friendships WHERE friend_id = :user_id))
-                OR (p.visibility = "private" AND p.user_id = :user_id)
-            ORDER BY p.created_at DESC
-        ');
+   // Método para obtener información adicional de amigo sobre los posts
+public function getPostsWithFriendInfo($user_id)
+{
+    $this->db->query('
+        SELECT p.*, u.username,
+        CASE 
+            WHEN p.user_id = :user_id THEN true 
+            WHEN f.friend_id IS NOT NULL THEN true 
+            ELSE false 
+        END as is_friend
+        FROM posts p
+        LEFT JOIN friendships f ON (p.user_id = f.friend_id AND f.user_id = :user_id AND f.status = "accepted")
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.visibility = "public"
+            OR (p.visibility = "friends" AND p.user_id IN (SELECT friend_id FROM friendships WHERE user_id = :user_id AND status = "accepted"))
+            OR (p.visibility = "friends" AND p.user_id IN (SELECT user_id FROM friendships WHERE friend_id = :user_id AND status = "accepted"))
+            OR (p.visibility = "private" AND p.user_id = :user_id)
+        ORDER BY p.created_at DESC
+    ');
 
-        $this->db->bind(':user_id', $user_id);
+    $this->db->bind(':user_id', $user_id);
 
-        return $this->db->resultSet();
-    }
+    return $this->db->resultSet();
+}
+
 }

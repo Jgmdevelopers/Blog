@@ -5,11 +5,11 @@
             <li>
                 <?= htmlspecialchars($user['username']) ?>
                 <a href="../Amigos/agregarAmigo?friend_id=<?= htmlspecialchars($user['id']) ?>">
-                    <button>Enviar solicitud de amistad</button>
+                    <button>Enviar solicitud</button>
                 </a>
             </li>
         <?php elseif ($user['estado_amistad'] === 'pendiente'): ?>
-            <li><?= htmlspecialchars($user['username']) ?> - Solicitud: Pendiente</li>
+            <li><?= htmlspecialchars($user['username']) ?> - Pendiente</li>
         <?php endif; ?>
     <?php endforeach; ?>
 </ul>

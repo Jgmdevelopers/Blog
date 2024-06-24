@@ -51,6 +51,7 @@
             margin-left: 10px;
             margin-bottom: 20px;
         }
+
         .post h4 {
             margin-top: 0;
             font-size: 24px;
@@ -163,6 +164,54 @@
         .actions .action-link:not(:last-child) {
             border-right: 1px solid #e1e1e1;
         }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: #f0f0f0;
+        }
+        
+        .clima {
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-top: 1px solid #ddd;
+        }
+        .container {
+            width: 55%;
+            padding: 20px;
+        }
+        .container_amigos {
+            width: 20%;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 20px;
+            border-left: 1px solid #ddd;
+        }
+        .container_amigos h2 {
+            margin-top: 0;
+        }
+        .amigo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .amigo button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .amigo button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -171,18 +220,31 @@
         <h2>Mis Posts</h2>
     </header>
 
-    <?php include 'components/menu.php'; ?>
-
-    <div class="container">
 
 
-        <h3>Tus publicaciones:</h3>
-        
-        <?php
+    <div class="main-container">
+        <div class="menu-container">
+            <div class="menu">
+                <?php include 'components/menu.php'; ?>
+            </div>
+            <div class="clima" id="clima">
+                <p>Cargando el clima...</p>
+            </div>
+        </div>
+        <div class="container">
+
+            <?php
             $isProfile = true;
             include 'components/cardPost.php';
-        ?>
-     
+            ?>
+        </div>
+        <div class="container_amigos">
+            <?php include 'components/solicitudes.php' ?>
+        </div>
+
+    </div>
+
+
     </div>
 </body>
 

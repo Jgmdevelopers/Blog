@@ -137,22 +137,23 @@ class PostController
 
         // Filtrar usuarios para excluir amigos y el usuario actual
         $filteredUsers = [];
+    
+        // Consultar el estado de amistad para cada usuario
+        $friendshipModel = new Friendship();
         
-         // Consultar el estado de amistad para cada usuario
-         $friendshipModel = new Friendship();
-         $availableUsers = [];
-         foreach ($users as $user) {
-             $friendshipStatus = $friendshipModel->getFriendshipStatus($user_id, $user['id']);
-             if ($friendshipStatus === 'pending') {
-                 $user['estado_amistad'] = 'pendiente';
-             } elseif ($friendshipStatus === 'blocked') {
-                 // No hacemos nada si está bloqueado
-                 continue;
-             } else {
-                 $user['estado_amistad'] = 'disponible';
-             }
-             $availableUsers[] = $user;
-         }
+        $availableUsers = [];
+        foreach ($users as $user) {
+            $friendshipStatus = $friendshipModel->getFriendshipStatus($user_id, $user['id']);
+            if ($friendshipStatus === 'pending') {
+                $user['estado_amistad'] = 'pendiente';
+            } elseif ($friendshipStatus === 'accepted' || $friendshipStatus === 'blocked') {
+                // No hacemos nada si está bloqueado
+                continue;
+            } else {
+                $user['estado_amistad'] = 'disponible';
+            }
+            $availableUsers[] = $user;
+        }
  
 
         // Mostrar publicaciones, amigos y usuarios en la vista
@@ -174,6 +175,12 @@ class PostController
         // Validar y obtener publicaciones
         $postModel = new Post();
         $posts = $postModel->getAllPostsPrivate($user_id);
+
+        // Instancia del modelo Friendship
+        $friendshipModel = new Friendship();
+
+        // Obtener solicitudes de amistad pendientes
+        $pendingRequests = $friendshipModel->getPendingRequests($user_id);
 
         // Mostrar publicaciones en la vista
         include_once '../app/views/profile.php';

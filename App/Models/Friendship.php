@@ -61,4 +61,57 @@ class Friendship {
         $row = $this->db->single();
         return $row ? $row['status'] : ''; // Devuelve el estado de amistad si existe, de lo contrario devuelve vacío
     }
+
+    // metodo para obtener las solicitudes de amistad pendientes
+    public function getPendingRequests($userId)
+    {
+        $query = '
+            SELECT f.*, u.username 
+            FROM friendships f
+            JOIN users u ON u.id = f.user_id
+            WHERE f.friend_id = :userId AND f.status = "pending"
+            UNION
+            SELECT f.*, u.username 
+            FROM friendships f
+            JOIN users u ON u.id = f.friend_id
+            WHERE f.user_id = :userId AND f.status = "pending"
+        ';
+        $this->db->query($query);
+        $this->db->bind(':userId', $userId);
+        return $this->db->resultSet();
+    }
+
+    public function rejectFriendRequest($user_id, $friend_id) {
+        $query = "
+            UPDATE friendships 
+            SET status = 'rejected' 
+            WHERE 
+                ((user_id = :user_id AND friend_id = :friend_id) OR (user_id = :friend_id AND friend_id = :user_id)) 
+                AND status = 'pending'
+        ";
+        $this->db->query($query);
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':friend_id', $friend_id);
+        $this->db->bind(':reverse_user_id', $friend_id); // Parámetro adicional para el usuario inverso
+        $this->db->bind(':reverse_friend_id', $user_id); // Parámetro adicional para el amigo inverso
+        return $this->db->execute();
+    }
+    
+
+    // método en la clase Friendship para cambiar el estado de la relación de amistad
+    public function changeFriendshipStatus($user_id, $friend_id, $status) {
+        $query = "UPDATE friendships SET status = :status WHERE ((user_id = :user_id AND friend_id = :friend_id) OR (user_id = :friend_id AND friend_id = :user_id))";
+        $this->db->query($query);
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':friend_id', $friend_id);
+        $this->db->bind(':status', $status);
+        return $this->db->execute();
+    }
+    
+    
+    
+    
+    
+    
+
 }

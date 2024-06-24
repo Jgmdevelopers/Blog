@@ -24,7 +24,7 @@
 
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -166,18 +166,15 @@
         .main-container {
             display: flex;
             justify-content: space-between;
+            padding: 20px;
         }
         .menu-container {
             display: flex;
             flex-direction: column;
             width: 20%;
             background-color: #f0f0f0;
-            padding: 20px;
-            border-right: 1px solid #ddd;
         }
-        .menu {
-            margin-bottom: 20px;
-        }
+        
         .clima {
             padding: 10px;
             background-color: #e0e0e0;
@@ -191,6 +188,7 @@
             width: 20%;
             background-color: #f9f9f9;
             padding: 20px;
+            margin: 20px;
             border-left: 1px solid #ddd;
         }
         .container_amigos h2 {

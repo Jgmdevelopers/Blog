@@ -22,7 +22,12 @@ class Router {
         $method = empty($url[0]) ? 'index' : strtolower($url[0]);
         // Ruta al archivo del controlador basado en el nombre del controlador obtenido
         $file = "../App/Controllers/$controllerName.php";
-      
+
+        // Extrae los parámetros friend_id y user_id
+        $friendId = isset($_GET['friend_id']) ? $_GET['friend_id'] : null;
+        $userId = isset($_GET['user_id']) ? $_GET['user_id'] : null;
+            
+        //echo 'friendId: ' . $friendId . ', userId: ' . $userId;
 
         // Verifica si el archivo del controlador existe
         if (file_exists($file)) {
@@ -35,8 +40,11 @@ class Router {
             // Verifica si el método existe en el controlador
             if (method_exists($controller, $method)) {
                 // Llama al método del controlador con los parámetros restantes de la URL
-                
-                call_user_func_array([$controller, $method], $url);
+
+
+                call_user_func_array([$controller, $method], [$friendId, $userId]);
+
+                //call_user_func_array([$controller, $method], $url);
             } else {
                 // Si el método no existe en el controlador, devuelve un error 404
                 http_response_code(404);
