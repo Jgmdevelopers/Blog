@@ -1,5 +1,4 @@
 <!-- profile.php -->
-<h2>Solicitudes de Amistad Pendientes</h2>
 <?php if (isset($pendingRequests) && !empty($pendingRequests)) : ?>
     <ul>
         <?php foreach ($pendingRequests as $request) : ?>

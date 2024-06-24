@@ -179,6 +179,9 @@ class PostController
         // Instancia del modelo Friendship
         $friendshipModel = new Friendship();
 
+        $acceptedFriends = $friendshipModel->getAcceptedFriends($user_id);
+
+
         // Obtener solicitudes de amistad pendientes
         $pendingRequests = $friendshipModel->getPendingRequests($user_id);
 
