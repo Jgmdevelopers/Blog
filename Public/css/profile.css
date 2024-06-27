@@ -1,0 +1,100 @@
+
+.main-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+    background-color: #000000;
+}
+
+.menu-container {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.clima {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container_amigos {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.solicitudes {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.amigos{
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.container {
+    width: 55%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-post{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.container-form-post{
+    padding: 20px;
+}
+
+
+
+.container_amigos h2 {
+    margin-top: 0;
+}
+
+.amigo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.amigo button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.amigo button:hover {
+    background-color: #0056b3;
+}
+
+
+
+

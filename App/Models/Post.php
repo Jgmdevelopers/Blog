@@ -11,10 +11,12 @@ class Post
     // Método para obtener todas las publicaciones del usuario autenticado
     public function getAllPostsPrivate($user_id)
     {
-        $this->db->query('SELECT * FROM posts WHERE user_id = :user_id');
+        $query = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
+        $this->db->query($query);
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
+    
 
     // Método para obtener todas las publicaciones al muro público
     public function getAllPublicPosts()

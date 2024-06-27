@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>profile.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>style.css">
+
     <title>CoderBlog</title>
     <!-- Agrega tus estilos CSS aquí -->
     <style>
@@ -225,6 +228,7 @@
             </div>
             <div class="clima" id="clima">
                 <p>Cargando el clima...</p>
+                <div id="weather-info"></div>
             </div>
         </div>
         <div class="container">
@@ -236,28 +240,31 @@
     </div>
 
     <script>
-        // JavaScript para obtener el clima
-        document.addEventListener('DOMContentLoaded', function () {
-            const climaDiv = document.getElementById('clima');
+        // Obtener la ubicación del usuario
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showWeather);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
 
-            // Reemplaza 'YOUR_API_KEY' con tu clave de API y 'CITY_NAME' con la ciudad que deseas consultar
-            const apiKey = 'YOUR_API_KEY';
-            const city = 'CITY_NAME';
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=es`;
+        // Función para mostrar el clima basado en la ubicación
+        function showWeather(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const temp = data.main.temp;
-                    const description = data.weather[0].description;
-                    climaDiv.innerHTML = `<p>Clima en ${city}: ${temp}°C, ${description}</p>`;
-                })
-                .catch(error => {
-                    climaDiv.innerHTML = '<p>No se pudo cargar el clima.</p>';
-                });
-        });
+            // Enviar la ubicación al controlador PHP utilizando AJAX
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Parsear la respuesta JSON y mostrar los datos del clima en el elemento con id "weather-info"
+                    var weatherData = JSON.parse(this.responseText);
+                    document.getElementById("weather-info").innerHTML = "El clima actual en " + weatherData.city_name + " es " + weatherData.description + " con una temperatura de " + weatherData.temperature + " grados Celsius.";
+                }
+            };
+            xhttp.open("GET", "../weather/getCurrentWeather?lat=" + latitude + "&lon=" + longitude, true);
+            xhttp.send();
+        }
     </script>
-
 </body>
 
 </html>

@@ -10,16 +10,10 @@
 
 <body>
     <header>
-        <h1>Bienvenido a nuestro sitio</h1>
+        <h1>Trabajo Final - PHP Avanzado</h1>
     </header>
 
     <div class="container">
-        <nav>
-            <ul>
-                <li><a href="http://localhost/tu_proyecto/">Inicio</a></li>
-                <li><a href="http://localhost/tu_proyecto/about">Acerca de</a></li>
-            </ul>
-        </nav>
 
         <div class="content">
             <p>Para acceder a todas las funcionalidades, por favor inicia sesión.</p>
@@ -27,6 +21,10 @@
 
         </div>
     </div>
+    <?php
+    include COMPONENTS_PATH . 'footer.php';
+    ?>
+
 </body>
 
 </html>

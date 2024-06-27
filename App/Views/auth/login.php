@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../../config.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="../../Public/css/style.css">
+   <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -107,5 +110,8 @@
         </form>
         <p>¿No tienes una cuenta? <a href="../Auth/register">Regístrate aquí</a></p>
     </div>
+    <?php
+    include COMPONENTS_PATH . 'footer.php';
+    ?>
 </body>
 </html>

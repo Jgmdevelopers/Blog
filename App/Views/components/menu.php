@@ -1,16 +1,10 @@
 <div class="container_user">
-    <div class="top-section">
+    <div class="username">
         <h2>Perfil de <?php echo htmlspecialchars($_SESSION['username']); ?></h2>
-        <p><a href="../Auth/logout" class="logout-link">Cerrar sesión</a></p>
     </div>
     <div class="bottom-section">
-        <a href="../dashboard/index">
-            <svg class="icon-menu" 
-                width="40px" height="40px" viewBox="0 0 32 32" 
-                version="1.1" xmlns="http://www.w3.org/2000/svg" 
-                xmlns:xlink="http://www.w3.org/1999/xlink" 
-                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" 
-                fill="#000000">
+        <a href="">
+            <svg class="icon-menu" width="40px" height="40px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
@@ -26,7 +20,7 @@
         </a>
 
         <a href="../post/PostsProfile">
-            <svg class="icon-menu"  width="40px" height="40px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+            <svg class="icon-menu" width="40px" height="40px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
@@ -38,8 +32,7 @@
         </a>
 
         <a href="../post/PostsGlobal">
-            <svg 
-            class="icon-menu" width="40px" height="40px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+            <svg class="icon-menu" width="40px" height="40px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
@@ -48,18 +41,22 @@
                 </g>
             </svg>
         </a>
+        <a href="../Auth/logout" class="logout-link">
+            <svg width="40px" height="40px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <g>
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2a9.985 9.985 0 0 1 8 4h-2.71a8 8 0 1 0 .001 12h2.71A9.985 9.985 0 0 1 12 22zm7-6v-3h-8v-2h8V8l5 4-5 4z"></path>
+                    </g>
+                </g>
+            </svg>
+        </a>
 
     </div>
 </div>
 
 <style>
-    .bottom-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .icon-menu{
-        margin: 10px;
-    }
-    
+
 </style>

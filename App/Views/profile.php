@@ -4,188 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>profile.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>style.css">
+
+
     <title>Perfil</title>
     <!-- Agrega tus estilos CSS aquí -->
-    <style>
-        /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .main-container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-        .menu-container {
-            width: 20%;
-            display: flex;
-            flex-direction: column;
-            border-radius: 8px;
-        }
-
-        .menu {
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .clima {
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .container_amigos {
-            width: 20%;
-            display: flex;
-            flex-direction: column;
-            border-radius: 8px;
-        }
-
-        .solicitudes {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .amigos{
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .container {
-            width: 55%;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-      
-
-        .container_amigos h2 {
-            margin-top: 0;
-        }
-
-        .amigo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .amigo button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        .amigo button:hover {
-            background-color: #0056b3;
-        }
-
-     
-
-        /* Estilos del post */
-        .post {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 0 auto;
-            margin-bottom: 20px;
-            padding: 15px;
-            text-align: center;
-            background-color: #d1d1d1;
-        }
-
-        .post h3 {
-            margin-top: 0;
-            font-size: 15px;
-            text-align: justify;
-            color: #333;
-            margin-left: 10px;
-            margin-bottom: 20px;
-        }
-
-        .post h4 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .post p {
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .post img {
-            width: 500px;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .post-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .post-info p {
-            margin: 0;
-        }
-
-    </style>
 </head>
 
 <body>
     <header>
-        <h2>Mis Posts</h2>
+        <h2>Mi Perfil</h2>
     </header>
 
     <div class="main-container">
+
+
         <div class="menu-container">
             <div class="menu">
                 <?php include 'components/menu.php'; ?>
             </div>
-            <div class="clima" id="clima">
-                <p>Cargando el clima...</p>
+            <div class="form-post">
+                <?php
+                include COMPONENTS_PATH . 'post.php';
+                ?>
+            </div>
+           
+        </div>
+
+        <div class="post-container">
+
+            <?php if (isset($_SESSION['success_message'])) : ?>
+                <div class="success-message">
+                    <?php echo $_SESSION['success_message']; ?>
+                </div>
+                <?php unset($_SESSION['success_message']); ?> <!-- Limpiar el mensaje después de mostrarlo -->
+            <?php endif; ?>
+
+           
+            <div class="card-post">
+                <?php
+                $isProfile = true;
+                include 'components/cardPost.php';
+                ?>
             </div>
         </div>
 
-        <div class="container">
-            <?php
-            $isProfile = true;
-            include 'components/cardPost.php';
-            ?>
-        </div>
-
         <div class="container_amigos">
+        <div class="clima" id="clima">
+                <p>Cargando el clima...</p>
+            </div>
             <div class="solicitudes">
                 <h2>Solicitudes de Amistad</h2>
                 <?php include 'components/solicitudes.php' ?>
@@ -195,8 +64,20 @@
                 <?php include 'components/amigos.php' ?>
             </div>
         </div>
+
     </div>
 
 </body>
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('image-preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 
 </html>

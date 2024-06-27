@@ -58,7 +58,7 @@ nav ul li a:hover {
 
 /* Enlaces */
 a {
-    color: #007bff;
+    color: #000000;
     text-decoration: none;
 }
 
@@ -68,7 +68,7 @@ a:hover {
 
 /* login */
    /* Encabezado */
-   h2 {
+h2 {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -77,6 +77,7 @@ a:hover {
 form {
     display: flex;
     flex-direction: column;
+    align-items: start;
 }
 
 label {
@@ -113,4 +114,258 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+/* menu */
+.container_user{
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}
+.bottom-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.icon-menu{
+    margin: 10px;
+}
+.username {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.bottom-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+.container_user a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+} .container_user a:hover {
+    text-decoration: underline;
+}
+
+.image-preview {
+    margin-top: 15px;
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    /* Maintain aspect ratio and fit within container */
+    display: block;
+}
+
+.success-message {
+    text-align: center;
+    color: #007bff;
+}
+.form-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilos para los inputs y textarea */
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.form-group-footer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.visibility{
+    width: 50%;
+}
+
+/* Estilo para el botón de envío */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para la vista previa de la imagen */
+.image-preview {
+    margin-top: 15px;
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain; /* Maintain aspect ratio and fit within container */
+    display: block;
+}
+
+/* Estilos para mensajes de error */
+.error {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Estilos para select de visibilidad */
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+ul li:hover {
+    background-color: #f0f0f0;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos del post */
+.post {
+    border-radius: 8px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 15px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.post h3 {
+    margin-top: 0;
+    font-size: 15px;
+    text-align: justify;
+    color: #333;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.post h4 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post p {
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.post img {
+    width: 500px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.post-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.post-info p {
+    margin: 0;
+}
+.footer-post {
+    padding: 10px 15px;
+    border-top: 1px solid #e1e1e1;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+.actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.action-link {
+    text-decoration: none;
+    color: #4267B2;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.action-link:hover {
+    background-color: #e1e1e1;
+    color: #29487d;
+    border-radius: 5px;
+}
+
+.action-link:active {
+    background-color: #d1d1d1;
+}
+
+.actions .action-link:not(:last-child) {
+    border-right: 1px solid #e1e1e1;
+}
+
+
+
+
+
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
 }

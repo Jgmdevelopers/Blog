@@ -1,5 +1,7 @@
 <?php
 require_once '../App/Models/Post.php';
+require_once __DIR__ . '/../../config.php';
+
 
 class DashboardController {
 
@@ -18,12 +20,13 @@ class DashboardController {
         // Verifica que el usuario esté autenticado
        
         if (!isset($_SESSION['user_id'])) {
-            header("Location: ../Auth/loginForm");
+            header("Location: " . BASE_URL . "Auth/loginForm");
             exit();
         }
 
         // Mostrar la vista del dashboard
-        include_once '../App/Views/dashboard.php';
+        include_once '../App/Views/profile.php';
+
     }
     
     public function profile() {
