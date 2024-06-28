@@ -9,29 +9,24 @@
 
 
     <title>Perfil</title>
-    <!-- Agrega tus estilos CSS aquí -->
+
 
 </head>
 
 <body>
-    <header>
-        <h2>Mi Perfil</h2>
-    </header>
 
-    <div class="main-container">
-
-
-        <div class="menu-container">
-            <div class="menu">
-                <?php include 'components/menu.php'; ?>
-            </div>
-            <div class="form-post">
-                <?php
-                include COMPONENTS_PATH . 'post.php';
-                ?>
-            </div>
-           
+    <div class="menu-container">
+        <div class="menu">
+            <?php include 'components/menu.php'; ?>
         </div>
+        <div class="form-post">
+            <?php
+            include COMPONENTS_PATH . 'post.php';
+            ?>
+        </div>
+
+    </div>
+    <div class="main-container">
 
         <div class="post-container">
 
@@ -42,7 +37,7 @@
                 <?php unset($_SESSION['success_message']); ?> <!-- Limpiar el mensaje después de mostrarlo -->
             <?php endif; ?>
 
-           
+
             <div class="card-post">
                 <?php
                 $isProfile = true;
@@ -50,21 +45,22 @@
                 ?>
             </div>
         </div>
+        
+    </div>
+    <div class="container_amigos">
 
-        <div class="container_amigos">
         <div class="clima" id="clima">
-                <p>Cargando el clima...</p>
-            </div>
-            <div class="solicitudes">
-                <h2>Solicitudes de Amistad</h2>
-                <?php include 'components/solicitudes.php' ?>
-            </div>
-            <div class="amigos">
-                <h2>Amigos</h2>
-                <?php include 'components/amigos.php' ?>
-            </div>
+            <h2>Clima</h2>
+            <p>Cargando el clima...</p>
         </div>
-
+        <div class="solicitudes">
+            <h2>Solicitudes de Amistad</h2>
+            <?php include 'components/solicitudes.php' ?>
+        </div>
+        <div class="amigos">
+            <h2>Amigos</h2>
+            <?php include 'components/amigos.php' ?>
+        </div>
     </div>
 
 </body>
