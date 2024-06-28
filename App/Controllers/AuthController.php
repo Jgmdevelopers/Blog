@@ -89,7 +89,7 @@ class AuthController
                    // Iniciar sesión y redirigir al panel de control
                    $_SESSION['user_id'] = $user['id'];
                    $_SESSION['username'] = $user['username'];
-                   header("Location: ../Dashboard/index");
+                   header("Location: " . PUBLIC_PATH . "Dashboard/index");
                    exit(); // Detener la ejecución después de redirigir
                 } else {
                     $errors['general'] = "Usuario o contraseña incorrectos.";
@@ -107,7 +107,8 @@ class AuthController
         session_unset();
         session_destroy();
         // Redirigir a la página de inicio o a otra página
-        header("Location: ../index.php");
-        exit();
+        // Redirigir al formulario de inicio de sesión
+        header("Location: " . PUBLIC_PATH . "Auth/loginForm");
+    exit();
     }
 }

@@ -5,7 +5,7 @@ class Router {
         // Obtiene la parte de la URL después del dominio (si existe) y elimina cualquier barra inclinada final
         $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '';
 
-        echo 'url:' .$url;
+        //echo 'url:' .$url;
 
         // Si la URL está vacía, redirige al método redirectToHome()
         if (empty($url)) {

@@ -16,7 +16,7 @@ class Post
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
-    
+
 
     // Método para obtener todas las publicaciones al muro público
     public function getAllPublicPosts()
@@ -94,10 +94,10 @@ class Post
         return $result['num_comments']; // Devolver el número de comentarios
     }
 
-   // Método para obtener información adicional de amigo sobre los posts
-public function getPostsWithFriendInfo($user_id)
-{
-    $this->db->query('
+    // Método para obtener información adicional de amigo sobre los posts
+    public function getPostsWithFriendInfo($user_id)
+    {
+        $this->db->query('
         SELECT p.*, u.username,
         CASE 
             WHEN p.user_id = :user_id THEN true 
@@ -114,9 +114,17 @@ public function getPostsWithFriendInfo($user_id)
         ORDER BY p.created_at DESC
     ');
 
-    $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':user_id', $user_id);
 
-    return $this->db->resultSet();
-}
+        return $this->db->resultSet();
+    }
 
+    // Método para actualizar la visibilidad de un post
+    public function updateVisibility($postId, $newVisibility)
+    {
+        $this->db->query('UPDATE posts SET visibility = :visibility WHERE id = :id');
+        $this->db->bind(':visibility', $newVisibility);
+        $this->db->bind(':id', $postId);
+        return $this->db->execute();
+    }
 }

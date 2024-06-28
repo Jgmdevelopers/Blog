@@ -11,7 +11,7 @@ class DashboardController {
             session_start();
         }
         if (!isset($_SESSION['user_id'])) {
-            header("Location: Auth/loginForm");
+            header("Location: " . PUBLIC_PATH . "Auth/loginForm");
             exit();
         }
     }
@@ -20,16 +20,16 @@ class DashboardController {
         // Verifica que el usuario esté autenticado
        
         if (!isset($_SESSION['user_id'])) {
-            header("Location: " . BASE_URL . "Auth/loginForm");
+            header("Location: " . PUBLIC_PATH . "Auth/loginForm");
             exit();
         }
 
         // Mostrar la vista del dashboard
-        include_once '../App/Views/profile.php';
+        header("Location: " . PUBLIC_PATH . "Post/PostsProfile");
 
     }
     
-    public function profile() {
+    /* public function profile() {
         // Verifica que el usuario esté autenticado
        
         if (!isset($_SESSION['user_id'])) {
@@ -43,5 +43,5 @@ class DashboardController {
 
         // Mostrar la vista del dashboard
         include_once '../App/Views/profile.php';
-    }
+    } */
 }

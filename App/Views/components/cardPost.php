@@ -39,21 +39,36 @@
                 <p>Publicado el <?php echo htmlspecialchars($post['created_at']); ?></p>
                 <p>
                     <?php if ($post['visibility'] === 'public') : ?>
-                        <a href="editar_post.php?id=<?php echo $post['id']; ?>">
+                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="public">
                             <?php echo SVG_PUBLIC; ?>
                         </a>
                     <?php elseif ($post['visibility'] === 'private') : ?>
-                        <?php echo SVG_PRIVATE; ?>
+                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="private">
+                            <?php echo SVG_PRIVATE; ?>
+                        </a>
                     <?php elseif ($post['visibility'] === 'friends') : ?>
-                        <?php echo SVG_FRIENDS; ?>
+                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="friends">
+                            <?php echo SVG_FRIENDS; ?>
+                        </a>
                     <?php else : ?>
                         Otro contenido
                     <?php endif; ?>
                 </p>
 
-
-               
+                <!-- Formulario oculto para cambiar la visibilidad -->
+                <div class="form-group visibility" style="display: none;">
+                <form method="POST" action="<?php echo PUBLIC_PATH; ?>post/changeVisibility" style="display: flex; flex-direction: column; align-items: center;">
+                        <input type="hidden" name="post_id" id="post_id" value="">
+                        <select name="visibility" id="visibility">
+                            <option value="public">Público</option>
+                            <option value="friends">Solo amigos</option>
+                            <option value="private">Solo yo</option>
+                        </select>
+                        <button type="submit" style="margin-top: 10px;">Guardar</button>
+                    </form>
+                </div>
             </div>
+
 
             <?php if ($post['user_id'] == $_SESSION['user_id'] || $post['is_friend']) : ?>
 
@@ -102,3 +117,35 @@
 <?php else : ?>
     <p>No has realizado ninguna publicación aún.</p>
 <?php endif; ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const visibilityLinks = document.querySelectorAll('.visibility-link');
+    visibilityLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Obtener los datos del post y la visibilidad actual
+            const postId = this.getAttribute('data-post-id');
+            const currentVisibility = this.getAttribute('data-visibility');
+
+            // Encontrar el formulario oculto
+            const visibilityForm = this.closest('.post-info').querySelector('.visibility');
+            
+            // Alternar la visibilidad del formulario
+            if (visibilityForm.style.display === 'block') {
+                visibilityForm.style.display = 'none';
+            } else {
+                // Ocultar cualquier otro formulario visible
+                document.querySelectorAll('.visibility').forEach(form => {
+                    form.style.display = 'none';
+                });
+
+                // Mostrar el formulario correspondiente
+                visibilityForm.style.display = 'block';
+                visibilityForm.querySelector('#post_id').value = postId;
+                visibilityForm.querySelector('#visibility').value = currentVisibility;
+            }
+        });
+    });
+});
+</script>

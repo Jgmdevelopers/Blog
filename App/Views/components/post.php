@@ -1,10 +1,8 @@
 <div class="container-form-post">
-    <form action="../post/store" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo PUBLIC_PATH; ?>post/store" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <input type="text" id="title" name="title" placeholder="Agrega un Título!" required>
         </div>
-
-     
 
         <div class="form-group">
             <img id="image-preview" class="image-preview" src="#" alt="Vista previa de la imagen" style="display: none;">

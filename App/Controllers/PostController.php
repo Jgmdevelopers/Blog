@@ -102,7 +102,8 @@ class PostController
             if ($postModel->addPost($title, $content, $user_id, $original_image_path, $thumbnail_path, $visibility)) {
                 // Publicación agregada correctamente
                 $_SESSION['success_message'] = "¡La publicación se agregó correctamente!";
-                header("Location: ../dashboard");
+                header("Location: " . PUBLIC_PATH . "Post/PostsProfile");
+
                 exit();
             } else {
                 // Error al agregar publicación
@@ -188,4 +189,24 @@ class PostController
         // Mostrar publicaciones en la vista
         include_once '../app/views/profile.php';
     }
+
+    /* Actualizar la visibilidad el post */
+    public function changeVisibility()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $postId = $_POST['post_id'];
+            $newVisibility = $_POST['visibility'];
+
+            $postModel = new Post();
+            if ($postModel->updateVisibility($postId, $newVisibility)) {
+                // Redirigir o mostrar un mensaje de éxito
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit();
+            } else {
+                // Manejar error de actualización
+                echo "Error al actualizar la visibilidad del post.";
+            }
+        }
+    }
+
 }
