@@ -507,3 +507,15 @@ a:hover {
     text-align: center;
     padding: 10px 0;
 }
+
+.dropdown-link {
+    display: block;
+    padding: 10px;
+    color: inherit; /* Para que herede el color del texto del contenedor */
+    text-decoration: none; /* Para quitar el subrayado */
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-link:hover {
+    background-color: #f0f0f0; /* Color de fondo al pasar el ratón */
+}

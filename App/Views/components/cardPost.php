@@ -1,6 +1,24 @@
 <?php if (!empty($posts)) : ?>
     <?php foreach ($posts as $post) : ?>
         <div class="post">
+            <div style="display: flex;flex-direction: row-reverse; justify-content: end; text-align: end; position: relative;">
+                <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                    <a href="#" class="dropdown-toggle" id="dropdownToggle_<?php echo $post['id']; ?>" onclick="toggleDropdown(<?php echo $post['id']; ?>)">
+                        <?php echo SVG_SETTING; ?>
+                    </a>
+                <?php endif; ?>
+
+                <div class="dropdown-menu" id="dropdownMenu_<?php echo $post['id']; ?>" style="display: none;">
+                    <a href="<?php echo PUBLIC_PATH; ?>post/edit?post_id=<?php echo $post['id']; ?>" class="dropdown-link">
+                        <?php echo SVG_EDIT; ?>
+                    </a>
+                    <a href="#" class="dropdown-link" onclick="deletePost(<?php echo $post['id']; ?>)">
+                        <?php echo SVG_DELETE; ?>
+                    </a>
+                </div>
+
+
+            </div>
 
             <?php if (!isset($isProfile)) : ?>
                 <h3>Publicado por:
@@ -57,7 +75,7 @@
 
                 <!-- Formulario oculto para cambiar la visibilidad -->
                 <div class="form-group visibility" style="display: none;">
-                <form method="POST" action="<?php echo PUBLIC_PATH; ?>post/changeVisibility" style="display: flex; flex-direction: column; align-items: center;">
+                    <form method="POST" action="<?php echo PUBLIC_PATH; ?>post/changeVisibility" style="display: flex; flex-direction: column; align-items: center;">
                         <input type="hidden" name="post_id" id="post_id" value="">
                         <select name="visibility" id="visibility">
                             <option value="public">Público</option>
@@ -118,34 +136,62 @@
     <p>No has realizado ninguna publicación aún.</p>
 <?php endif; ?>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const visibilityLinks = document.querySelectorAll('.visibility-link');
-    visibilityLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
+    function toggleDropdown(postId) {
+        var dropdownMenu = document.getElementById('dropdownMenu_' + postId);
+        if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+            dropdownMenu.style.display = 'block';
+        } else {
+            dropdownMenu.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const visibilityLinks = document.querySelectorAll('.visibility-link');
+        visibilityLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
 
-            // Obtener los datos del post y la visibilidad actual
-            const postId = this.getAttribute('data-post-id');
-            const currentVisibility = this.getAttribute('data-visibility');
+                // Obtener los datos del post y la visibilidad actual
+                const postId = this.getAttribute('data-post-id');
+                const currentVisibility = this.getAttribute('data-visibility');
 
-            // Encontrar el formulario oculto
-            const visibilityForm = this.closest('.post-info').querySelector('.visibility');
-            
-            // Alternar la visibilidad del formulario
-            if (visibilityForm.style.display === 'block') {
-                visibilityForm.style.display = 'none';
-            } else {
-                // Ocultar cualquier otro formulario visible
-                document.querySelectorAll('.visibility').forEach(form => {
-                    form.style.display = 'none';
-                });
+                // Encontrar el formulario oculto
+                const visibilityForm = this.closest('.post-info').querySelector('.visibility');
 
-                // Mostrar el formulario correspondiente
-                visibilityForm.style.display = 'block';
-                visibilityForm.querySelector('#post_id').value = postId;
-                visibilityForm.querySelector('#visibility').value = currentVisibility;
-            }
+                // Alternar la visibilidad del formulario
+                if (visibilityForm.style.display === 'block') {
+                    visibilityForm.style.display = 'none';
+                } else {
+                    // Ocultar cualquier otro formulario visible
+                    document.querySelectorAll('.visibility').forEach(form => {
+                        form.style.display = 'none';
+                    });
+
+                    // Mostrar el formulario correspondiente
+                    visibilityForm.style.display = 'block';
+                    visibilityForm.querySelector('#post_id').value = postId;
+                    visibilityForm.querySelector('#visibility').value = currentVisibility;
+                }
+            });
         });
     });
-});
+</script>
+<script>
+function deletePost(postId) {
+    if (confirm('¿Estás seguro de que deseas eliminar este post?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '<?php echo PUBLIC_PATH; ?>post/delete';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'post_id';
+        input.value = postId;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 </script>
