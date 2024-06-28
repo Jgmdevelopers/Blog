@@ -54,38 +54,52 @@
             <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
 
             <div class="post-info" style="display: flex; flex-direction: column;">
-                <p>Publicado el <?php echo htmlspecialchars($post['created_at']); ?></p>
-                <p>
-                    <?php if ($post['visibility'] === 'public') : ?>
-                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="public">
-                            <?php echo SVG_PUBLIC; ?>
-                        </a>
-                    <?php elseif ($post['visibility'] === 'private') : ?>
-                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="private">
-                            <?php echo SVG_PRIVATE; ?>
-                        </a>
-                    <?php elseif ($post['visibility'] === 'friends') : ?>
-                        <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="friends">
-                            <?php echo SVG_FRIENDS; ?>
-                        </a>
-                    <?php else : ?>
-                        Otro contenido
-                    <?php endif; ?>
-                </p>
+    <p>Publicado el <?php echo htmlspecialchars($post['created_at']); ?></p>
+    <p>
+        <?php if ($post['visibility'] === 'public') : ?>
+            <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="public">
+                    <?php echo SVG_PUBLIC; ?>
+                </a>
+            <?php else : ?>
+                <?php echo SVG_PUBLIC; ?>
+            <?php endif; ?>
+        <?php elseif ($post['visibility'] === 'private') : ?>
+            <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="private">
+                    <?php echo SVG_PRIVATE; ?>
+                </a>
+            <?php else : ?>
+                <?php echo SVG_PRIVATE; ?>
+            <?php endif; ?>
+        <?php elseif ($post['visibility'] === 'friends') : ?>
+            <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                <a href="#" class="visibility-link" data-post-id="<?php echo $post['id']; ?>" data-visibility="friends">
+                    <?php echo SVG_FRIENDS; ?>
+                </a>
+            <?php else : ?>
+                <?php echo SVG_FRIENDS; ?>
+            <?php endif; ?>
+        <?php else : ?>
+            Otro contenido
+        <?php endif; ?>
+    </p>
 
-                <!-- Formulario oculto para cambiar la visibilidad -->
-                <div class="form-group visibility" style="display: none;">
-                    <form method="POST" action="<?php echo PUBLIC_PATH; ?>post/changeVisibility" style="display: flex; flex-direction: column; align-items: center;">
-                        <input type="hidden" name="post_id" id="post_id" value="">
-                        <select name="visibility" id="visibility">
-                            <option value="public">Público</option>
-                            <option value="friends">Solo amigos</option>
-                            <option value="private">Solo yo</option>
-                        </select>
-                        <button type="submit" style="margin-top: 10px;">Guardar</button>
-                    </form>
-                </div>
-            </div>
+    <!-- Formulario oculto para cambiar la visibilidad -->
+    <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+        <div class="form-group visibility" style="display: none;">
+            <form method="POST" action="<?php echo PUBLIC_PATH; ?>post/changeVisibility" style="display: flex; flex-direction: column; align-items: center;">
+                <input type="hidden" name="post_id" id="post_id" value="<?php echo $post['id']; ?>">
+                <select name="visibility" id="visibility">
+                    <option value="public" <?php echo ($post['visibility'] === 'public') ? 'selected' : ''; ?>>Público</option>
+                    <option value="friends" <?php echo ($post['visibility'] === 'friends') ? 'selected' : ''; ?>>Solo amigos</option>
+                    <option value="private" <?php echo ($post['visibility'] === 'private') ? 'selected' : ''; ?>>Solo yo</option>
+                </select>
+                <button type="submit" style="margin-top: 10px;">Guardar</button>
+            </form>
+        </div>
+    <?php endif; ?>
+</div>
 
 
            
