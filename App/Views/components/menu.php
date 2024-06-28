@@ -18,15 +18,15 @@
                 </g>
             </svg>
         </a> -->
-
-        <a href="../post/PostsProfile">
+        
+        <a href="<?php echo PUBLIC_PATH; ?>post/PostsProfile">
         <?php echo SVG_PERFIL; ?>
         </a>
 
-        <a href="../post/PostsGlobal">
+        <a href="<?php echo PUBLIC_PATH; ?>post/PostsGlobal">
         <?php echo SVG_GLOBAL; ?>
         </a>
-        <a href="../Auth/logout" class="logout-link">
+        <a href="<?php echo PUBLIC_PATH; ?>Auth/logout" class="logout-link">
         <?php echo SVG_LOGOUT; ?>
         </a>
         </a>

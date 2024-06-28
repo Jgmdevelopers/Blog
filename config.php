@@ -14,7 +14,6 @@ define('PUBLIC_PATH', BASE_URL . 'Public/');
 define('ASSETS_PATH', PUBLIC_PATH . 'css/');
 define('ASSETS_PATH_JS', BASE_URL . 'js/');
 define('COMPONENTS_PATH', BASE_PATH . '/blog/App/Views/Components/');
-define('CONTROLLER_PATH', BASE_URL . 'App/Controllers/');
 define('VIEWS_PATH', BASE_URL . 'App/Views/');
 
 //privacidad
