@@ -88,7 +88,7 @@
             </div>
 
 
-            <?php if ($post['user_id'] == $_SESSION['user_id'] || $post['is_friend']) : ?>
+           
 
                 <div class="footer-post">
                     <div class="actions">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
 
-            <?php endif; ?>
+           
 
         </div>
     <?php endforeach; ?>

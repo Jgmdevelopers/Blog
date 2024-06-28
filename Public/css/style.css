@@ -519,3 +519,13 @@ a:hover {
 .dropdown-link:hover {
     background-color: #f0f0f0; /* Color de fondo al pasar el ratón */
 }
+
+.container-edit{
+    display: flex;
+    width: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: #0056b3;
+}

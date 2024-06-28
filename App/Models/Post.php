@@ -8,53 +8,70 @@ class Post
         $this->db = new Database();
     }
 
-    // Método para obtener todas las publicaciones del usuario autenticado
-    public function getAllPostsPrivate($user_id)
+  // Método para obtener todas las publicaciones del usuario autenticado
+public function getAllPostsPrivate($user_id)
+{
+    $query = 'SELECT * FROM posts WHERE user_id = :user_id AND is_active = 1 ORDER BY created_at DESC';
+    $this->db->query($query);
+    $this->db->bind(':user_id', $user_id);
+    return $this->db->resultSet();
+}
+
+
+  // Método para obtener todas las publicaciones al muro público
+public function getAllPublicPosts()
+{
+    $this->db->query('
+        SELECT * FROM posts 
+        WHERE visibility = "public" AND is_active = 1
+        ORDER BY created_at DESC
+    ');
+    return $this->db->resultSet();
+}
+   // Método para obtener publicaciones globales considerando la visibilidad y la amistad
+public function getPostGlobal($user_id)
+{
+    $this->db->query('
+        SELECT p.*, u.username 
+        FROM posts p
+        LEFT JOIN friendships f ON p.user_id = f.friend_id AND f.user_id = :user_id
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE (p.visibility = "public" AND p.is_active = 1)
+            OR (p.visibility = "friends" AND p.is_active = 1 AND p.user_id IN (SELECT friend_id FROM friendships WHERE user_id = :user_id))
+            OR (p.visibility = "friends" AND p.is_active = 1 AND p.user_id IN (SELECT user_id FROM friendships WHERE friend_id = :user_id))
+            OR (p.visibility = "private" AND p.is_active = 1 AND p.user_id = :user_id)
+        ORDER BY p.created_at DESC
+    ');
+
+    $this->db->bind(':user_id', $user_id);
+
+    return $this->db->resultSet();
+}
+
+// Método para obtener una publicación por su ID
+public function getPostById($id)
+{
+    $this->db->query('SELECT * FROM posts WHERE id = :id AND is_active = 1');
+    $this->db->bind(':id', $id);
+    return $this->db->single();
+}
+    // Método para actualizar un post
+    public function updatePost($postId, $title, $content)
     {
-        $query = 'SELECT * FROM posts WHERE user_id = :user_id ORDER BY created_at DESC';
-        $this->db->query($query);
-        $this->db->bind(':user_id', $user_id);
-        return $this->db->resultSet();
+        $this->db->query('UPDATE posts SET title = :title, content = :content WHERE id = :id');
+        $this->db->bind(':id', $postId);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':content', $content);
+        return $this->db->execute();
     }
 
-
-    // Método para obtener todas las publicaciones al muro público
-    public function getAllPublicPosts()
+    // Método para eliminar un post
+    // Método para realizar un borrado lógico del post
+    public function deletePost($postId)
     {
-        $this->db->query('
-            SELECT * FROM posts 
-            WHERE visibility = "public"
-            ORDER BY created_at DESC
-        ');
-        return $this->db->resultSet();
-    }
-
-    // Método para obtener publicaciones globales considerando la visibilidad y la amistad
-    public function getPostGlobal($user_id)
-    {
-        $this->db->query('
-            SELECT p.*, u.username 
-            FROM posts p
-            LEFT JOIN friendships f ON p.user_id = f.friend_id AND f.user_id = :user_id
-            LEFT JOIN users u ON p.user_id = u.id
-            WHERE p.visibility = "public"
-                OR (p.visibility = "friends" AND p.user_id IN (SELECT friend_id FROM friendships WHERE user_id = :user_id))
-                OR (p.visibility = "friends" AND p.user_id IN (SELECT user_id FROM friendships WHERE friend_id = :user_id))
-                OR (p.visibility = "private" AND p.user_id = :user_id)
-            ORDER BY p.created_at DESC
-        ');
-
-        $this->db->bind(':user_id', $user_id);
-
-        return $this->db->resultSet();
-    }
-
-    // Método para obtener una publicación por su ID
-    public function getPostById($id)
-    {
-        $this->db->query('SELECT * FROM posts WHERE id = :id');
-        $this->db->bind(':id', $id);
-        return $this->db->single();
+        $this->db->query('UPDATE posts SET is_active = 0 WHERE id = :id');
+        $this->db->bind(':id', $postId);
+        return $this->db->execute();
     }
 
     // Método para agregar una nueva publicación
@@ -94,10 +111,10 @@ class Post
         return $result['num_comments']; // Devolver el número de comentarios
     }
 
-    // Método para obtener información adicional de amigo sobre los posts
-    public function getPostsWithFriendInfo($user_id)
-    {
-        $this->db->query('
+   // Método para obtener información adicional de amigo sobre los posts
+public function getPostsWithFriendInfo($user_id)
+{
+    $this->db->query('
         SELECT p.*, u.username,
         CASE 
             WHEN p.user_id = :user_id THEN true 
@@ -107,17 +124,19 @@ class Post
         FROM posts p
         LEFT JOIN friendships f ON (p.user_id = f.friend_id AND f.user_id = :user_id AND f.status = "accepted")
         LEFT JOIN users u ON p.user_id = u.id
-        WHERE p.visibility = "public"
+        WHERE (p.visibility = "public"
             OR (p.visibility = "friends" AND p.user_id IN (SELECT friend_id FROM friendships WHERE user_id = :user_id AND status = "accepted"))
             OR (p.visibility = "friends" AND p.user_id IN (SELECT user_id FROM friendships WHERE friend_id = :user_id AND status = "accepted"))
-            OR (p.visibility = "private" AND p.user_id = :user_id)
+            OR (p.visibility = "private" AND p.user_id = :user_id))
+            AND p.is_active = 1
         ORDER BY p.created_at DESC
     ');
 
-        $this->db->bind(':user_id', $user_id);
+    $this->db->bind(':user_id', $user_id);
 
-        return $this->db->resultSet();
-    }
+    return $this->db->resultSet();
+}
+
 
     // Método para actualizar la visibilidad de un post
     public function updateVisibility($postId, $newVisibility)
