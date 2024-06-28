@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>profile.css">
     <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>style.css">
 
-
     <title>Perfil</title>
-
 
 </head>
 
@@ -45,7 +43,7 @@
                 ?>
             </div>
         </div>
-        
+
     </div>
     <div class="container_amigos">
 

@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #000000;
     color: #333;
     display: flex;
 }
@@ -15,22 +15,22 @@ header {
     text-align: center;
 }
 .card-post {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
+  /*   background-color: #fff; */
+   /*  border: 1px solid #ddd; */
+   /*  padding: 20px; */
     margin-bottom: 20px;
     border-radius: 5px;
 }
 
 /* Contenedor principal */
-.container {
+/* .container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Navegación */
 nav ul {
@@ -258,9 +258,95 @@ ul {
     flex-direction: row;
     justify-content: space-between;
 }
+.friends-container{
+    margin: 5px;
+    font-weight: bold;
+}
+
+.action-solicitud button{
+    margin: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.friend-pending{
+    margin: 5px;
+    font-weight: bold;
+}
+.friend-name{
+    padding: 10px;
+    font-weight: bold;
+}
+
+.main-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+    margin-top: 50px;
+    background-color: #000000;
+    overflow-y: auto;
+    height: 100vh;
+    box-sizing: border-box;
+    /* Ocultar barra de desplazamiento en Chrome, Safari y Opera */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.main-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+}
+.menu-container {
+    width: 25%;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    height: 100vh;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.menu {
+    background-color: #333;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.clima {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.container_amigos {
+    display: flex;
+    position: sticky;
+    margin-left: auto;
+    padding: 20px;
+    width: 25%;
+    top: 0;
+    margin-top: 50px;
+    overflow: auto;
+    z-index: 1000;
+    background-color: #000000;
+    flex-direction: column;
+    height: 100vh;
+}
+
 
 ul li {
- 
     margin-bottom: 10px;
     background-color: #fff;
     padding: 10px;
@@ -271,15 +357,9 @@ li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin: 10px;
     padding: 10px;
-    background-color: #fff;
     border-radius: 5px;
-}
-/* Estilos para el nombre de usuario */
-li span.username {
-    font-weight: bold;
-    color: #333;
 }
 
 
@@ -291,7 +371,6 @@ li a.button {
     margin-right: 10px;
     padding: 5px 10px;
     color: white;
-
     text-decoration: none;
     border-radius: 3px;
 }
@@ -318,6 +397,7 @@ a:hover {
 
 /* Estilos del post */
 .post {
+    width: 100%;
     border-radius: 8px;
     margin: 0 auto;
     margin-bottom: 20px;
@@ -361,6 +441,18 @@ a:hover {
     justify-content: center;
     color: #888;
     font-size: 14px;
+}
+/* .container {
+    width: 55%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} */
+
+
+.container_amigos h2 {
+    margin-top: 0;
 }
 
 .post-info p {

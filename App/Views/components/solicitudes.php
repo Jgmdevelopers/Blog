@@ -3,11 +3,14 @@
     <ul>
         <?php foreach ($pendingRequests as $request) : ?>
             <li>
-                <?= htmlspecialchars($request['username']) ?>
+                <div class="friend-pending">
+                    <?= htmlspecialchars($request['username']) ?>
+                </div>
                 <?php if ($request['status'] === 'pending') : ?>
                     <?php if ($request['user_id'] == $_SESSION['user_id']) : ?>
-                        <a href="../Amigos/cancelarSolicitud?friend_id=<?= htmlspecialchars($request['friend_id']) ?>&user_id=<?= htmlspecialchars($request['user_id']) ?>"><button>Cancelar</button></a>
-
+                        <div class="action-solicitud">
+                            <a href="../Amigos/cancelarSolicitud?friend_id=<?= htmlspecialchars($request['friend_id']) ?>&user_id=<?= htmlspecialchars($request['user_id']) ?>"><button>Cancelar</button></a>
+                        </div>
                     <?php else : ?>
                         <div class="action-solicitud">
                             <a href="../Amigos/aceptarAmigo?friend_id=<?= htmlspecialchars($request['user_id']) ?>"><button>Aceptar</button></a>
