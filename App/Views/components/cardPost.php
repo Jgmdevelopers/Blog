@@ -128,7 +128,7 @@
                     <?php foreach ($commentModel->getComments($post['id']) as $comment) : ?>
                         <div class="comment">
                             <p><?php echo htmlspecialchars($comment['content']); ?></p>
-                            <small>Publicado por <?php echo htmlspecialchars($comment['username']); ?> el <?php echo htmlspecialchars($comment['created_at']); ?></small>
+                            <small>Publicado por <?php echo htmlspecialchars($comment['user_id']); ?> el <?php echo htmlspecialchars($comment['created_at']); ?></small>
                             <?php if ($comment['user_id'] == $_SESSION['user_id']) : ?>
                                 <a href="<?php echo PUBLIC_PATH; ?>comment/deleteComment?comment_id=<?php echo $comment['id']; ?>" class="delete-comment-link">Eliminar</a>
                             <?php endif; ?>
