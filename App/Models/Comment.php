@@ -85,5 +85,12 @@ class Comment
         $this->db->bind(':post_id', $postId);
         return $this->db->single();
     }
+    public function getPostUserId($postId)
+    {
+        $this->db->query('SELECT user_id FROM posts WHERE id = :post_id');
+        $this->db->bind(':post_id', $postId);
+        $result = $this->db->single();
+        return $result ? $result['user_id'] : null;
+    }
   
 }
