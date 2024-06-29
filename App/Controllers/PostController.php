@@ -1,6 +1,8 @@
 <?php
 require_once '../App/Models/Post.php';
 require_once '../App/Models/User.php';
+require_once '../App/Models/Like.php';
+require_once '../App/Models/Comment.php';
 require_once '../App/Models/Friendship.php';
 
 class PostController
@@ -154,6 +156,16 @@ class PostController
             }
             $availableUsers[] = $user;
         }
+
+        // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
+        $likeModel = new Like();
+        $commentModel = new Comment();
+
+         // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
+         foreach ($posts as &$post) {
+            $post['likes_count'] = $likeModel->getLikesCount($post['id']);
+            $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+        }
  
 
         // Mostrar publicaciones, amigos y usuarios en la vista
@@ -176,11 +188,18 @@ class PostController
         $postModel = new Post();
         $posts = $postModel->getAllPostsPrivate($user_id);
 
+        // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
+        $likeModel = new Like();
+        $commentModel = new Comment();
+
+         foreach ($posts as &$post) {
+            $post['likes_count'] = $likeModel->getLikesCount($post['id']);
+            $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+        }
+
         // Instancia del modelo Friendship
         $friendshipModel = new Friendship();
-
         $acceptedFriends = $friendshipModel->getAcceptedFriends($user_id);
-
 
         // Obtener solicitudes de amistad pendientes
         $pendingRequests = $friendshipModel->getPendingRequests($user_id);

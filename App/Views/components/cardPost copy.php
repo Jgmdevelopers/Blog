@@ -103,39 +103,23 @@
 
             <div class="footer-post">
                 <div class="actions">
-                    <!-- botón me gusta -->
-                    <a href="<?php echo PUBLIC_PATH; ?>like/toggleLike?post_id=<?php echo $post['id']; ?>" class="action-link like-link">
+                    <!-- boton me gusta -->
+                    <a href="#" class="action-link">
                         <?php echo SVG_LIKE; ?>
-                        <span class="like-count">(<?php echo $post['likes_count']; ?>)</span>
+                        <span>(0)</span> <!-- Contador -->
                     </a>
-
-                    <!-- botón comentarios -->
-                    <a href="#" class="action-link comment-link">
-                        <?php echo SVG_COMMENT; ?>
-                        <span class="comment-count">(<?php echo $post['comments_count']; ?>)</span>
+                    <!-- boton comentarios -->
+                    <a href="#" class="action-link">
+                    <?php echo SVG_COMMENT; ?>
+                        <span>(0)</span> <!-- Contador -->
                     </a>
+                    <!-- <a href="#" class="action-link">Enviar</a>
+                            <a href="#" class="action-link">Compartir</a> -->
                 </div>
             </div>
 
-            <div class="comments-section">
-                <form class="comment-form" method="POST" action="<?php echo PUBLIC_PATH; ?>comment/addComment">
-                    <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                    <textarea name="content" rows="4" placeholder="Agregar un comentario..."></textarea>
-                    <button type="submit">Comentar</button>
-                </form>
 
-                <div class="comments-list">
-                    <?php foreach ($commentModel->getComments($post['id']) as $comment) : ?>
-                        <div class="comment">
-                            <p><?php echo htmlspecialchars($comment['content']); ?></p>
-                            <small>Publicado por <?php echo htmlspecialchars($comment['username']); ?> el <?php echo htmlspecialchars($comment['created_at']); ?></small>
-                            <?php if ($comment['user_id'] == $_SESSION['user_id']) : ?>
-                                <a href="<?php echo PUBLIC_PATH; ?>comment/deleteComment?comment_id=<?php echo $comment['id']; ?>" class="delete-comment-link">Eliminar</a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+
         </div>
     <?php endforeach; ?>
 <?php else : ?>

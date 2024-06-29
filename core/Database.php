@@ -72,6 +72,12 @@ class Database {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
+    // Obtener un solo resultado como objeto
+    public function singleObject() {
+        $this->execute();
+        return $this->stmt->fetch(PDO::FETCH_OBJ);
+    }
+
 
     // Obtener el número de filas afectadas por la última consulta
     public function rowCount() {

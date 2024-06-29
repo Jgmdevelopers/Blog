@@ -1,50 +1,43 @@
 <?php
-class Like {
+
+class Like
+{
     private $db;
-    private $table_name = "likes";
 
-    public $id;
-    public $post_id;
-    public $user_id;
-    public $created_at;
-
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct()
+    {
+        $this->db = new Database();
     }
 
-    // Insertar un nuevo like
-    public function create() {
-        $query = "INSERT INTO " . $this->table_name . " (post_id, user_id, created_at) VALUES (:post_id, :user_id, NOW())";
-        
-        $this->db->query($query);
-        $this->db->bind(":post_id", htmlspecialchars(strip_tags($this->post_id)));
-        $this->db->bind(":user_id", htmlspecialchars(strip_tags($this->user_id)));
-
+    public function likePost($userId, $postId)
+    {
+        $this->db->query('INSERT INTO likes (user_id, post_id) VALUES (:user_id, :post_id)');
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':post_id', $postId);
         return $this->db->execute();
     }
 
-    // Verificar si el usuario ya ha dado like a este post
-    public function userHasLiked() {
-        $query = "SELECT id FROM " . $this->table_name . " WHERE post_id = :post_id AND user_id = :user_id";
-
-        $this->db->query($query);
-        $this->db->bind(":post_id", htmlspecialchars(strip_tags($this->post_id)));
-        $this->db->bind(":user_id", htmlspecialchars(strip_tags($this->user_id)));
-
-        $this->db->execute();
-
-        return $this->db->rowCount() > 0;
+    public function unlikePost($userId, $postId)
+    {
+        $this->db->query('DELETE FROM likes WHERE user_id = :user_id AND post_id = :post_id');
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':post_id', $postId);
+        return $this->db->execute();
     }
 
-    // Obtener el número de likes para un post
-    public function countLikes() {
-        $query = "SELECT COUNT(*) as likes FROM " . $this->table_name . " WHERE post_id = :post_id";
+    public function getLikesCount($postId)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM likes WHERE post_id = :post_id');
+        $this->db->bind(':post_id', $postId);
+        $result = $this->db->singleObject();
+        return $result ? $result->count : 0;
+    }
 
-        $this->db->query($query);
-        $this->db->bind(":post_id", htmlspecialchars(strip_tags($this->post_id)));
-
-        $row = $this->db->single();
-
-        return $row['likes'];
+    public function userLikedPost($userId, $postId)
+    {
+        $this->db->query('SELECT * FROM likes WHERE user_id = :user_id AND post_id = :post_id');
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':post_id', $postId);
+        return $this->db->singleObject() ? true : false;
     }
 }
