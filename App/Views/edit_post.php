@@ -101,6 +101,8 @@
         <?php if (isset($post)) : ?>
             <form id="edit-post-form" class="form" method="POST" action="<?php echo PUBLIC_PATH; ?>post/update" enctype="multipart/form-data">
                 <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
+                <input type="hidden" name="current_image_path" value="<?php echo htmlspecialchars($post['image_path']); ?>">
+                <input type="hidden" name="current_thumbnail_path" value="<?php echo htmlspecialchars($post['thumbnail_path']); ?>">
                 <div class="form-group">
                     <label for="title">Título</label>
                     <input type="text" name="title" id="title" value="<?php echo htmlspecialchars($post['title']); ?>" required>
@@ -122,9 +124,7 @@
                     <div id="current-image-container">
                         <?php if (!empty($post['image_path'])) : ?>
                             <?php
-                            // Obtener el nombre del archivo de la imagen
                             $image_filename = basename($post['image_path']);
-                            // Ruta completa de la original
                             $image_path_original = '../../Public/uploads/' . $image_filename;
                             ?>
                             <img id="current-image" src="<?php echo htmlspecialchars($image_path_original); ?>" alt="Imagen del post">
@@ -148,7 +148,6 @@
         <?php endif; ?>
 
         <script>
-            // Función para previsualizar la imagen seleccionada
             function previewImage() {
                 var fileInput = document.getElementById('new_image');
                 var currentImageContainer = document.getElementById('current-image-container');
@@ -159,7 +158,7 @@
 
                     reader.onload = function(e) {
                         currentImage.src = e.target.result;
-                        currentImageContainer.style.display = 'block'; // Mostrar el contenedor de la imagen actual
+                        currentImageContainer.style.display = 'block';
                     }
 
                     reader.readAsDataURL(fileInput.files[0]);

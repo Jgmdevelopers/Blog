@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>style.css">
 
     <title>POST GLOBAL</title>
-   
+
 </head>
 
 <body>
+    <?php
+        include '_partials/message.php';
+    ?>
+
 
     <div class="menu-container">
         <div class="menu">
@@ -21,13 +25,6 @@
     </div>
     <div class="main-container">
         <div class="post-container">
-            <?php if (isset($_SESSION['success_message'])) : ?>
-                <div class="success-message">
-                    <?php echo $_SESSION['success_message']; ?>
-                </div>
-                <?php unset($_SESSION['success_message']); ?> <!-- Limpiar el mensaje después de mostrarlo -->
-            <?php endif; ?>
-
             <div class="container">
                 <?php include 'components/cardPost.php'; ?>
             </div>

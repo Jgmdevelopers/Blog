@@ -529,3 +529,11 @@ a:hover {
     margin: auto;
     background-color: #0056b3;
 }
+
+.error-message{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
