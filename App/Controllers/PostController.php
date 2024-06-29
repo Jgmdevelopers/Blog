@@ -226,123 +226,120 @@ class PostController
             echo "ID de publicación no proporcionado.";
         }
     }
-    public function update($id)
-{
-    session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Procesar datos del formulario de actualización de publicación
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $visibility = $_POST['visibility']; // Obtener la visibilidad del formulario
-        $user_id = $_SESSION['user_id']; // Obtener el ID del usuario de la sesión
-        $original_image_path = null;
-        $thumbnail_path = null;
-
-        // Manejo de la carga de la imagen si se proporciona una nueva
-        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $target_dir = "../Public/uploads/";
-            $thumbnail_dir = "../Public/thumb/";
-
-            $image_name = basename($_FILES["image"]["name"]);
-            $image_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION)); // Obtener la extensión del archivo y convertirla a minúsculas
-
-            $allowed_extensions = array('jpg', 'jpeg', 'png');
-
-            // Verificar si el archivo tiene una extensión permitida
-            if (in_array($image_extension, $allowed_extensions)) {
-                $timestamp = time(); // Timestamp actual
-
-                // Generar un nombre de archivo único utilizando el timestamp y una parte del nombre original
-                $image_name_unique = $timestamp . '_' . uniqid() . '.' . $image_extension;
-                $thumbnail_name_unique = 'thumb_' . $image_name_unique; // Nombre para la miniatura
-
-                $target_file = $target_dir . $image_name_unique;
-                $thumbnail_file = $thumbnail_dir . $thumbnail_name_unique;
-
-                // Verificar si el archivo es una imagen real
-                $check = getimagesize($_FILES["image"]["tmp_name"]);
-
-                if ($check !== false) {
-                    // Mover el archivo a la carpeta de destino
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                        $original_image_path = $target_file;
-
-                        // Crear miniatura
-                        $source = null;
-                        if ($image_extension == 'jpg' || $image_extension == 'jpeg') {
-                            $source = imagecreatefromjpeg($original_image_path);
-                        } elseif ($image_extension == 'png') {
-                            $source = imagecreatefrompng($original_image_path);
-                        }
-
-                        if ($source !== null) {
-                            list($width, $height) = getimagesize($original_image_path);
-                            $new_width = 100; // Ancho deseado para la miniatura
-                            $new_height = ($height / $width) * $new_width;
-                            $thumb = imagecreatetruecolor($new_width, $new_height);
-
-                            // Comprobar si la miniatura se creó correctamente
-                            if ($thumb !== false) {
-                                imagecopyresampled($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-                                // Guardar miniatura
-                                imagejpeg($thumb, $thumbnail_file);
-                                imagedestroy($thumb);
-
-                                // La ruta de la miniatura debe ser relativa a la carpeta Public
-                                $thumbnail_path = substr($thumbnail_file, 3); // Elimina '../' del principio
+    public function update()
+    {
+        session_start();
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Procesar datos del formulario de actualización de publicación
+            $postId = $_POST['post_id'];
+            $title = $_POST['title'];
+            $content = $_POST['content'];
+            $visibility = $_POST['visibility']; // Obtener la visibilidad del formulario
+            $userId = $_SESSION['user_id']; // Obtener el ID del usuario de la sesión
+    
+            $originalImagePath = null;
+            $thumbnailPath = null;
+    
+            // Manejo de la carga de la nueva imagen
+            if (isset($_FILES['new_image']) && $_FILES['new_image']['error'] == 0) {
+                $targetDir = "../Public/uploads/";
+                $thumbnailDir = "../Public/thumb/";
+    
+                $imageName = basename($_FILES["new_image"]["name"]);
+                $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION)); // Obtener la extensión del archivo y convertirla a minúsculas
+    
+                $allowedExtensions = array('jpg', 'jpeg', 'png');
+    
+                // Verificar si el archivo tiene una extensión permitida
+                if (in_array($imageExtension, $allowedExtensions)) {
+                    $timestamp = time(); // Timestamp actual
+    
+                    // Generar un nombre de archivo único utilizando el timestamp y una parte del nombre original
+                    $imageNameUnique = $timestamp . '_' . uniqid() . '.' . $imageExtension;
+                    $thumbnailNameUnique = 'thumb_' . $imageNameUnique; // Nombre para la miniatura
+    
+                    $targetFile = $targetDir . $imageNameUnique;
+                    $thumbnailFile = $thumbnailDir . $thumbnailNameUnique;
+    
+                    // Verificar si el archivo es una imagen real
+                    $check = getimagesize($_FILES["new_image"]["tmp_name"]);
+    
+                    if ($check !== false) {
+                        // Mover el archivo a la carpeta de destino
+                        if (move_uploaded_file($_FILES["new_image"]["tmp_name"], $targetFile)) {
+                            $originalImagePath = $targetFile;
+    
+                            // Crear miniatura
+                            $source = null;
+                            if ($imageExtension == 'jpg' || $imageExtension == 'jpeg') {
+                                $source = imagecreatefromjpeg($originalImagePath);
+                            } elseif ($imageExtension == 'png') {
+                                $source = imagecreatefrompng($originalImagePath);
+                            }
+    
+                            if ($source !== null) {
+                                list($width, $height) = getimagesize($originalImagePath);
+                                $newWidth = 100; // Ancho deseado para la miniatura
+                                $newHeight = ($height / $width) * $newWidth;
+                                $thumb = imagecreatetruecolor($newWidth, $newHeight);
+    
+                                // Comprobar si la miniatura se creó correctamente
+                                if ($thumb !== false) {
+                                    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+    
+                                    // Guardar miniatura
+                                    imagejpeg($thumb, $thumbnailFile);
+                                    imagedestroy($thumb);
+    
+                                    // La ruta de la miniatura debe ser relativa a la carpeta Public
+                                    $thumbnailPath = substr($thumbnailFile, 3); // Elimina '../' del principio
+                                } else {
+                                    echo "Error al crear la miniatura.";
+                                    exit();
+                                }
                             } else {
-                                echo "Error al crear la miniatura.";
+                                echo "Error al crear la imagen desde el archivo.";
                                 exit();
                             }
                         } else {
-                            echo "Error al crear la imagen desde el archivo.";
+                            // Error al mover el archivo
+                            echo "Error al subir la imagen.";
                             exit();
                         }
                     } else {
-                        // Error al mover el archivo
-                        echo "Error al subir la imagen.";
+                        echo "El archivo no es una imagen válida.";
                         exit();
                     }
                 } else {
-                    echo "El archivo no es una imagen válida.";
+                    echo "Solo se permiten imágenes de tipo JPG, JPEG y PNG.";
                     exit();
                 }
             } else {
-                echo "Solo se permiten imágenes de tipo JPG, JPEG y PNG.";
-                exit();
+                // Si no se subió una nueva imagen, mantener la imagen existente
+                $originalImagePath = $_POST['current_image_path'];
+                $thumbnailPath = $_POST['current_thumbnail_path'];
             }
-        }
-
-        // Validar y actualizar publicación existente
-        $postModel = new Post();
-
-        if ($postModel->updatePost($id, $title, $content, $user_id, $original_image_path, $thumbnail_path, $visibility)) {
-            // Publicación actualizada correctamente
-            $_SESSION['success_message'] = "¡La publicación se actualizó correctamente!";
-            header("Location: " . PUBLIC_PATH . "Post/PostsProfile");
-
-            exit();
+    
+            // Validar y actualizar publicación
+            $postModel = new Post();
+    
+            if ($postModel->updatePost($postId, $title, $content, $userId, $originalImagePath, $thumbnailPath, $visibility)) {
+                // Publicación actualizada correctamente
+                $_SESSION['success_message'] = "¡La publicación se actualizó correctamente!";
+                header("Location: " . PUBLIC_PATH . "Post/PostsProfile");
+                exit();
+            } else {
+                // Error al actualizar publicación
+                echo "Error al actualizar la publicación.";
+            }
         } else {
-            // Error al actualizar publicación
-            echo "Error al actualizar la publicación.";
+            // Mostrar formulario de actualización de publicación
+            include_once '../app/views/edit_post.php';
         }
-    } else {
-        // Obtener los datos actuales de la publicación para mostrar en el formulario de actualización
-        $postModel = new Post();
-        $post = $postModel->getPostById($id);
-
-        if (!$post) {
-            // Si no se encuentra la publicación
-            echo "La publicación no existe.";
-            exit();
-        }
-
-        // Mostrar formulario de actualización de publicación con los datos actuales
-        include_once '../app/views/update_post.php';
     }
-}
+    
 
     // Método para eliminar el post
     public function delete() {

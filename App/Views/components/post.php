@@ -9,7 +9,7 @@
         </div>
 
         <div class="form-group">
-            <textarea id="content" name="content" placeholder="¿Qué estás pensando?" required></textarea>
+            <textarea id="content" name="content" placeholder="¿Qué estás pensando?"></textarea>
         </div>
 
         <div class="form-group-footer">

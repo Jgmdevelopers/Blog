@@ -56,15 +56,19 @@ public function getPostById($id)
     return $this->db->single();
 }
     // Método para actualizar un post
-    public function updatePost($postId, $title, $content)
+    public function updatePost($postId, $title, $content, $userId, $originalImagePath, $thumbnailPath, $visibility)
     {
-        $this->db->query('UPDATE posts SET title = :title, content = :content WHERE id = :id');
+        $this->db->query('UPDATE posts SET title = :title, content = :content, user_id = :user_id, image_path = :image_path, thumbnail_path = :thumbnail_path, visibility = :visibility WHERE id = :id');
         $this->db->bind(':id', $postId);
         $this->db->bind(':title', $title);
         $this->db->bind(':content', $content);
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':image_path', $originalImagePath);
+        $this->db->bind(':thumbnail_path', $thumbnailPath);
+        $this->db->bind(':visibility', $visibility);
         return $this->db->execute();
     }
-
+    
     // Método para eliminar un post
     // Método para realizar un borrado lógico del post
     public function deletePost($postId)

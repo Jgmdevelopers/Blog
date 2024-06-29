@@ -107,7 +107,7 @@
                 </div>
                 <div class="form-group">
                     <label for="content">Contenido</label>
-                    <textarea name="content" id="content" rows="10" required><?php echo htmlspecialchars($post['content']); ?></textarea>
+                    <textarea name="content" id="content" rows="10"><?php echo htmlspecialchars($post['content']); ?></textarea>
                 </div>
                 <div class="form-group visibility">
                     <label for="visibility">Visibilidad</label>
