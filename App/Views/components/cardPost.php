@@ -120,7 +120,7 @@
             <div class="comments-section">
                 <form class="comment-form" method="POST" action="<?php echo PUBLIC_PATH; ?>comment/addComment">
                     <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                    <textarea name="content" rows="4" placeholder="Agregar un comentario..."></textarea>
+                    <textarea style="width: 100%; margin:5px" name="content" rows="4" placeholder="Agregar un comentario..."></textarea>
                     <button type="submit">Comentar</button>
                 </form>
 
