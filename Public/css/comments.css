@@ -1,6 +1,117 @@
-.comments-section{
-    width: 100%;
+/* Estilos generales */
+.comments-section {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
 }
-.comment-form{
-    width: 100% !important;
+
+/* Lista de comentarios */
+/* Lista de comentarios */
+/* .comments-list {
+    margin-bottom: 15px;
 }
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f2f5;
+}
+
+.comment p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+} */
+
+
+.comments-list .comment {
+    border-top: 1px solid #e6e6e6;
+    padding: 10px 0;
+}
+
+.comments-list .comment p {
+    margin: 10px;
+    font-size: 14px;
+}
+
+/* .comment small {
+    color: #65676b;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+.comments-list .comment small {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 12px;
+}
+/* .comment .delete-comment-link {
+    color: #1877f2;
+    font-size: 12px;
+    cursor: pointer;
+} */
+.delete-comment-link {
+    color: #f00;
+    text-decoration: none;
+}
+.delete-comment-link:hover {
+    text-decoration: underline;
+}
+
+.comment-form {
+    margin-top: 10px;
+}
+
+/* Formulario de comentarios */
+/* .comment-form {
+    display: flex;
+    align-items: flex-start;
+}
+ */
+.comment-form textarea {
+    width: calc(100% - 30px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    resize: none;
+}
+
+.comment-form button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #1877f2;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.comment-form button:hover {
+    background-color: #1559c1;
+}
+
+.show-more-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.show-more-btn:hover {
+    background-color: #0056b3;
+}
+
+

@@ -461,11 +461,13 @@ a:hover {
 .footer-post {
     padding: 10px 15px;
     border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
     background-color: #f9f9f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    margin: 10px;
+    height: 20px;
 }
 .actions {
     display: flex;

@@ -1,3 +1,6 @@
+<?php
+require_once '../utils.php';
+?>
 <?php if (!empty($posts)) : ?>
     <?php foreach ($posts as $post) : ?>
         <div class="post">
@@ -118,23 +121,32 @@
             </div>
 
             <div class="comments-section">
+                <div class="comments-list" id="comments-list-<?php echo $post['id']; ?>">
+                    <?php
+                    $lastComment = $commentModel->getLastComment($post['id']);
+                    if ($lastComment) : ?>
+                        <div class="comment">
+                            <p><?php echo htmlspecialchars($lastComment['content']); ?></p>
+                            <small>
+                                <span><?php echo htmlspecialchars($commentModel->getUsernameById($lastComment['user_id'])); ?> comentó</span>
+                                <span><?php echo time_elapsed_string($lastComment['created_at']); ?></span>
+                                <?php if ($lastComment['user_id'] == $_SESSION['user_id'] || $commentModel->getPostUserId($post['id']) == $_SESSION['user_id']) : ?>
+                                    <a href="<?php echo PUBLIC_PATH; ?>comment/deleteComment?comment_id=<?php echo $lastComment['id']; ?>" class="delete-comment-link" onclick="return confirmDelete();">Eliminar</a>
+                                <?php endif; ?>
+
+                            </small>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <button onclick="showMoreComments(<?php echo $post['id']; ?>, 1)" class="show-more-btn">Ver más</button>
+                <button onclick="hideComments(<?php echo $post['id']; ?>)" class="show-more-btn hide-comments-btn" style="display: none;">Ocultar comentarios</button>
+
                 <form class="comment-form" method="POST" action="<?php echo PUBLIC_PATH; ?>comment/addComment">
                     <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                    <textarea style="width: 100%; margin:5px" name="content" rows="4" placeholder="Agregar un comentario..."></textarea>
+                    <textarea name="content" rows="4" placeholder="Agregar un comentario..."></textarea>
                     <button type="submit">Comentar</button>
                 </form>
-
-                <div class="comments-list">
-                    <?php foreach ($commentModel->getComments($post['id']) as $comment) : ?>
-                        <div class="comment">
-                            <p><?php echo htmlspecialchars($comment['content']); ?></p>
-                            <small>Publicado por <?php echo htmlspecialchars($comment['user_id']); ?> el <?php echo htmlspecialchars($comment['created_at']); ?></small>
-                            <?php if ($comment['user_id'] == $_SESSION['user_id']) : ?>
-                                <a href="<?php echo PUBLIC_PATH; ?>comment/deleteComment?comment_id=<?php echo $comment['id']; ?>" class="delete-comment-link">Eliminar</a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
             </div>
         </div>
     <?php endforeach; ?>
@@ -200,4 +212,56 @@
             form.submit();
         }
     }
+</script>
+<script>
+    function showMoreComments(postId, offset) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `<?php echo PUBLIC_PATH; ?>comment/loadMoreComments?post_id=${postId}&offset=${offset}`, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const comments = JSON.parse(xhr.responseText);
+                const commentsList = document.getElementById(`comments-list-${postId}`);
+
+                comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment';
+                    commentDiv.innerHTML = `
+                        <p>${comment.content}</p>
+                        <small>
+                            <span>${comment.username}</span>
+                            <span>${comment.created_at}</span>
+                            ${comment.user_id == <?php echo $_SESSION['user_id']; ?> || comment.post_user_id == <?php echo $_SESSION['user_id']; ?> ? `<a href="<?php echo PUBLIC_PATH; ?>comment/deleteComment?comment_id=${comment.id}" class="delete-comment-link">Eliminar</a>` : ''}
+                        </small>
+                    `;
+                    commentsList.appendChild(commentDiv);
+                });
+
+                // Actualiza el botón "Mostrar más comentarios" si es necesario
+                if (comments.length < 10) {
+                    document.querySelector(`button[onclick="showMoreComments(${postId}, ${offset})"]`).style.display = 'none';
+                } else {
+                    // Incrementar el offset para la próxima carga
+                    document.querySelector(`button[onclick="showMoreComments(${postId}, ${offset})"]`).setAttribute('onclick', `showMoreComments(${postId}, ${offset + 10})`);
+                }
+
+                // Mostrar el botón de ocultar comentarios
+                document.querySelector(`button[onclick="hideComments(${postId})"]`).style.display = 'block';
+            }
+        };
+        xhr.send();
+    }
+
+    function hideComments(postId) {
+        const commentsList = document.getElementById(`comments-list-${postId}`);
+        while (commentsList.children.length > 1) {
+            commentsList.removeChild(commentsList.lastChild);
+        }
+        document.querySelector(`button[onclick="showMoreComments(${postId}, 1)"]`).style.display = 'block';
+        document.querySelector(`button[onclick="hideComments(${postId})"]`).style.display = 'none';
+    }
+</script>
+<script>
+function confirmDelete() {
+    return confirm("¿Estás seguro de que quieres eliminar este comentario?");
+}
 </script>
