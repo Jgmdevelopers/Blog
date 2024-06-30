@@ -223,10 +223,13 @@ class PostController
     // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
     $likeModel = new Like();
     $commentModel = new Comment();
-
+    $friendshipModel = new Friendship();
+    
     foreach ($posts as &$post) {
         $post['likes_count'] = $likeModel->getLikesCount($post['id']);
         $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+        $post['is_friend'] = $friendshipModel->areFriends($user_id, $post['user_id']);
+    
     }
 
     // Instancia del modelo Friendship
