@@ -17,7 +17,6 @@
     include '_partials/message.php';
     ?>
 
-
     <div class="menu-container">
         <div class="menu">
             <?php include 'components/menu.php'; ?>
@@ -34,7 +33,9 @@
         <?php
         include COMPONENTS_PATH . 'selector-main.php';
         ?>
+
         <div class="post-container">
+            
 
             <div class="card-post">
                 <?php

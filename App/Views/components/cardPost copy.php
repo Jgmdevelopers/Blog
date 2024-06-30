@@ -123,7 +123,7 @@
         </div>
     <?php endforeach; ?>
 <?php else : ?>
-    <p>No has realizado ninguna publicación aún.</p>
+    <p style="display: flex; justify-content: center;">No hya publicaciones para mostrar.</p>
 <?php endif; ?>
 <script>
     function toggleDropdown(postId) {

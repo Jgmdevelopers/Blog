@@ -119,58 +119,53 @@ class PostController
 
     public function PostsGlobal() {
         session_start();
-
+    
         // Verificar que el usuario esté autenticado
         if (!isset($_SESSION['user_id'])) {
             header('Location: ../auth/login.php');
             exit();
         }
-
+    
         // Obtener el ID del usuario
         $user_id = $_SESSION['user_id'];
-
+    
         // Obtener información sobre publicaciones y amigos con estados de amistad
         $postModel = new Post();
-        $posts = $postModel->getPostsWithFriendInfo($user_id);
-
+        $posts = $postModel->getAllPublicPosts($user_id);
+    
         // Obtener todos los usuarios excepto el usuario actual
         $userModel = new User();
         $users = $userModel->getAllUsersExcept($user_id);
-
-        // Filtrar usuarios para excluir amigos y el usuario actual
-        $filteredUsers = [];
     
         // Consultar el estado de amistad para cada usuario
         $friendshipModel = new Friendship();
-        
         $availableUsers = [];
         foreach ($users as $user) {
             $friendshipStatus = $friendshipModel->getFriendshipStatus($user_id, $user['id']);
             if ($friendshipStatus === 'pending') {
                 $user['estado_amistad'] = 'pendiente';
             } elseif ($friendshipStatus === 'accepted' || $friendshipStatus === 'blocked') {
-                // No hacemos nada si está bloqueado
+                // No hacemos nada si está bloqueado o aceptado
                 continue;
             } else {
                 $user['estado_amistad'] = 'disponible';
             }
             $availableUsers[] = $user;
         }
-
+    
         // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
         $likeModel = new Like();
         $commentModel = new Comment();
-
-         // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
-         foreach ($posts as &$post) {
+        foreach ($posts as &$post) {
             $post['likes_count'] = $likeModel->getLikesCount($post['id']);
             $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+            $post['is_friend'] = $friendshipModel->areFriends($user_id, $post['user_id']);
         }
- 
-
+    
         // Mostrar publicaciones, amigos y usuarios en la vista
         include_once '../app/views/public_post.php';
     }
+    
     public function PostsProfile()
     {
         session_start();
@@ -191,14 +186,15 @@ class PostController
         // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
         $likeModel = new Like();
         $commentModel = new Comment();
+        // Instancia del modelo Friendship
+        $friendshipModel = new Friendship();
 
          foreach ($posts as &$post) {
             $post['likes_count'] = $likeModel->getLikesCount($post['id']);
             $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+            $post['is_friend'] = $friendshipModel->areFriends($user_id, $post['user_id']);
         }
 
-        // Instancia del modelo Friendship
-        $friendshipModel = new Friendship();
         $acceptedFriends = $friendshipModel->getAcceptedFriends($user_id);
 
         // Obtener solicitudes de amistad pendientes
@@ -207,6 +203,44 @@ class PostController
         // Mostrar publicaciones en la vista
         include_once '../app/views/profile.php';
     }
+    public function PostsFriends()
+{
+    session_start();
+
+    // Verificar que el usuario esté autenticado
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ../auth/login.php');
+        exit();
+    }
+
+    // Obtener el ID del usuario
+    $user_id = $_SESSION['user_id'];
+
+    // Validar y obtener publicaciones de amigos
+    $postModel = new Post();
+    $posts = $postModel->getAllPostsFriends($user_id);
+
+    // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
+    $likeModel = new Like();
+    $commentModel = new Comment();
+
+    foreach ($posts as &$post) {
+        $post['likes_count'] = $likeModel->getLikesCount($post['id']);
+        $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
+    }
+
+    // Instancia del modelo Friendship
+    $friendshipModel = new Friendship();
+    $acceptedFriends = $friendshipModel->getAcceptedFriends($user_id);
+
+    // Obtener solicitudes de amistad pendientes
+    $pendingRequests = $friendshipModel->getPendingRequests($user_id);
+    
+
+    // Mostrar publicaciones en la vista
+    include_once '../app/views/friends_post.php';
+}
+
 
     /* Actualizar la visibilidad el post */
     public function changeVisibility()

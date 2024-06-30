@@ -14,8 +14,13 @@
 </head>
 
 <body>
+
+    <header>
+
+    </header>
+
     <?php
-        include '_partials/message.php';
+    include '_partials/message.php';
     ?>
 
 
@@ -26,10 +31,13 @@
 
     </div>
     <div class="main-container">
+        
+    <?php
+        include COMPONENTS_PATH . 'selector-main.php';
+        ?>
+       
         <div class="post-container">
-            <div class="container">
-                <?php include 'components/cardPost.php'; ?>
-            </div>
+            <?php include 'components/cardPost.php'; ?>
         </div>
     </div>
     <div class="container_amigos">

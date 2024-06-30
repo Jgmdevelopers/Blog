@@ -19,17 +19,44 @@ class Post
         return $this->db->resultSet();
     }
 
-  // Método para obtener todas las publicaciones al muro público
-    public function getAllPublicPosts()
+    // Método para obtener todas las publicaciones de los amigos
+
+    public function getAllPostsFriends($user_id)
     {
+        $query = '
+        SELECT p.*, u.username
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        WHERE p.user_id IN (
+            SELECT friend_id
+            FROM friendships
+            WHERE user_id = :user_id
+            AND status = "accepted"
+        )
+        AND (p.visibility = "public" OR p.visibility = "friends")
+        AND p.is_active = 1
+        ORDER BY p.created_at DESC
+    ';
+        $this->db->query($query);
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->resultSet();
+    }
+
+
+
+
+    // Método para obtener todas las publicaciones al muro público
+    public function getAllPublicPosts() {
         $this->db->query('
-            SELECT * FROM posts 
-            WHERE visibility = "public" AND is_active = 1
-            ORDER BY created_at DESC
+            SELECT posts.*, users.username 
+            FROM posts 
+            JOIN users ON posts.user_id = users.id 
+            WHERE posts.visibility = "public" AND posts.is_active = 1
+            ORDER BY posts.created_at DESC
         ');
         return $this->db->resultSet();
     }
-   // Método para obtener publicaciones globales considerando la visibilidad y la amistad
+    // Método para obtener publicaciones globales considerando la visibilidad y la amistad
     public function getPostGlobal($user_id)
     {
         $this->db->query('
@@ -69,7 +96,7 @@ class Post
         $this->db->bind(':visibility', $visibility);
         return $this->db->execute();
     }
-    
+
     // Método para eliminar un post
     // Método para realizar un borrado lógico del post
     public function deletePost($postId)
@@ -96,23 +123,26 @@ class Post
         return $this->db->execute();
     }
 
-     // Método para obtener la cantidad de "Me gusta"
-     public function getLikesCount($postId) {
+    // Método para obtener la cantidad de "Me gusta"
+    public function getLikesCount($postId)
+    {
         $likeModel = new Like();
         return $likeModel->getLikesCount($postId);
     }
 
     // Método para obtener la cantidad de comentarios
-    public function getCommentsCount($postId) {
+    public function getCommentsCount($postId)
+    {
         $commentModel = new Comment();
         return $commentModel->getCommentsCount($postId);
     }
 
-    public function getComments($postId) {
+    public function getComments($postId)
+    {
         $commentModel = new Comment();
         return $commentModel->getComments($postId);
     }
-   // Método para obtener información adicional de amigo sobre los posts
+    // Método para obtener información adicional de amigo sobre los posts
     public function getPostsWithFriendInfo($user_id)
     {
         $this->db->query('

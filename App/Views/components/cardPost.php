@@ -4,38 +4,55 @@ require_once '../utils.php';
 <?php if (!empty($posts)) : ?>
     <?php foreach ($posts as $post) : ?>
         <div class="post">
-            <div style="display: flex;flex-direction: row-reverse; justify-content: end; text-align: end; position: relative;">
-                <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
-                    <a href="#" class="dropdown-toggle" id="dropdownToggle_<?php echo $post['id']; ?>" onclick="toggleDropdown(<?php echo $post['id']; ?>)">
-                        <?php echo SVG_SETTING; ?>
-                    </a>
-                <?php endif; ?>
+            <div class="post-cabecera">
+                <div class="post-nombre">
+                    <h3>Publicado por:
+                        <a href="">
+                            <?php
+                            if ($post['user_id'] === $user_id) {
+                                echo "Tú";
+                            } else {
+                                echo htmlspecialchars($post['username']);
+                            }
+                            ?> <!-- Nombre de usuario -->
+                        </a>
+                    </h3>
+                </div>
+                <div style="display: flex;flex-direction: row-reverse; justify-content: end; text-align: end; position: relative;">
+                    <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                        <a href="#" class="dropdown-toggle" id="dropdownToggle_<?php echo $post['id']; ?>" onclick="toggleDropdown(<?php echo $post['id']; ?>)">
+                            <?php echo SVG_SETTING; ?>
+                        </a>
+                    <?php endif; ?>
 
-                <div class="dropdown-menu" id="dropdownMenu_<?php echo $post['id']; ?>" style="display: none;">
-                    <a href="<?php echo PUBLIC_PATH; ?>post/edit?post_id=<?php echo $post['id']; ?>" class="dropdown-link">
-                        <?php echo SVG_EDIT; ?>
-                    </a>
-                    <a href="#" class="dropdown-link" onclick="deletePost(<?php echo $post['id']; ?>)">
-                        <?php echo SVG_DELETE; ?>
-                    </a>
+                    <div class="dropdown-menu" id="dropdownMenu_<?php echo $post['id']; ?>" style="display: none;">
+                        <?php if ($post['user_id'] === $_SESSION['user_id']) : ?>
+                            <a href="<?php echo PUBLIC_PATH; ?>post/edit?post_id=<?php echo $post['id']; ?>" class="dropdown-link">
+                                <?php echo SVG_EDIT; ?>
+                            </a>
+                            <a href="#" class="dropdown-link" onclick="deletePost(<?php echo $post['id']; ?>)">
+                                <?php echo SVG_DELETE; ?>
+                            </a>
+                        <?php endif; ?>
+                       
+                    </div>
+                    <div class="addFrriend">
+
+                        <?php if ($post['visibility'] === 'public' && $post['user_id'] !== $_SESSION['user_id'] && !$post['is_friend']) : ?>
+                                <a href="<?php echo PUBLIC_PATH; ?>Amigos/agregarAmigo?friend_id=<?php echo $post['user_id']; ?>" class="dropdown-link">
+                                    <?php echo SVG_ADD_FRIEND; ?>
+                                </a>
+                            <?php endif; ?>
+                    </div>
                 </div>
 
 
             </div>
 
-            <?php if (!isset($isProfile)) : ?>
-                <h3>Publicado por:
-                    <a href="">
-                        <?php
-                        if ($post['user_id'] === $user_id) {
-                            echo "Tú";
-                        } else {
-                            echo htmlspecialchars($post['username']);
-                        }
-                        ?> <!-- Nombre de usuario -->
-                    </a>
-                </h3>
-            <?php endif; ?>
+
+
+
+
             <h4><?php echo htmlspecialchars($post['title']); ?></h4>
 
             <?php if ($post['image_path']) : ?>
@@ -151,7 +168,7 @@ require_once '../utils.php';
         </div>
     <?php endforeach; ?>
 <?php else : ?>
-    <p>No has realizado ninguna publicación aún.</p>
+    <p style="display: flex; justify-content: center;">No hya publicaciones para mostrar.</p>
 <?php endif; ?>
 <script>
     function toggleDropdown(postId) {
@@ -261,7 +278,7 @@ require_once '../utils.php';
     }
 </script>
 <script>
-function confirmDelete() {
-    return confirm("¿Estás seguro de que quieres eliminar este comentario?");
-}
+    function confirmDelete() {
+        return confirm("¿Estás seguro de que quieres eliminar este comentario?");
+    }
 </script>

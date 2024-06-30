@@ -34,7 +34,7 @@ class Friendship
     }
 
     // Método para verificar si dos usuarios son amigos
-    public function areFriends($user_id, $friend_id)
+/*     public function areFriends($user_id, $friend_id)
     {
         $query = "SELECT * FROM friendships WHERE (user_id = ? AND friend_id = ? AND status = 'accepted') OR (user_id = ? AND friend_id = ? AND status = 'accepted')";
         $this->db->query($query);
@@ -43,6 +43,18 @@ class Friendship
         $this->db->bind(3, $friend_id);
         $this->db->bind(4, $user_id);
 
+        return $this->db->single() ? true : false;
+    } */
+    // Método para verificar si ya son amigos
+    public function areFriends($user_id, $friend_id) {
+        $this->db->query('
+            SELECT * FROM friendships 
+            WHERE (user_id = :user_id AND friend_id = :friend_id AND status = "accepted") 
+               OR (user_id = :friend_id AND friend_id = :user_id AND status = "accepted")
+        ');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':friend_id', $friend_id);
+        $row = $this->db->single();
         return $this->db->single() ? true : false;
     }
 
