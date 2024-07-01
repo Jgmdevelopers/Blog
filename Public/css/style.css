@@ -301,39 +301,48 @@ ul {
 }
 
 .selector{
-    justify-content: center;
-    position: relative;
+    justify-content: space-between;
     display: flex;
     flex-direction: row;
     padding: 10px;
-    
+    margin: 10px;
+    position: fixed;
+    top: 0%;
+    width: 45%;
    
 }
 
 .selector_perfil, .selector_amigos{
-    width: 100%;
+    width: 50%;
     text-align: center;
     align-items: center;
     padding: 20px;
     transition: background-color 0.5s ease;
 }
 .selector_perfil:hover, .selector_amigos:hover{
-    background-color: #808080;
     color: #000;
     border-radius: 10px;
     
 }
 
-.selector_perfil a, .selector_amigos a{
-    color: #f0f0f0;
-
+/* Estilo para los enlaces en el estado inactivo */
+.selector_perfil a, .selector_amigos a {
+    color: #ffffff; /* Texto blanco para mejor contraste */
+    padding: 20px;
+    background-color: #0057b33d; /* Azul oscuro */
+    border-radius: 10px; 
+    text-decoration: none; /* Sin subrayado */
 }
+
+/* Estilo para los enlaces en el estado activo */
 .selector_perfil a.active, .selector_amigos a.active {
-    background-color: #808080; /* Fondo gris */
-    font-weight: bold; /* Estilo de texto activo */
+    background-color: #0057b3; /* Tomate, un color naranja/rojo */
+    font-weight: bold; /* Texto en negrita */
     border-radius: 10px; /* Redondear bordes */
     padding: 20px;
+    color: #ffffff; /* Mantener el texto blanco */
 }
+
 
 
 .post-container{
