@@ -23,9 +23,14 @@
         <?php echo SVG_PERFIL; ?>
         </a>
 
-        <a href="<?php echo PUBLIC_PATH; ?>post/PostsGlobal">
-        <?php echo SVG_GLOBAL; ?>
-        </a>
+        <?php
+       
+          include 'config.php';
+          
+        ?>
+          
+    
+
         <a href="<?php echo PUBLIC_PATH; ?>Auth/logout" class="logout-link">
         <?php echo SVG_LOGOUT; ?>
         </a>

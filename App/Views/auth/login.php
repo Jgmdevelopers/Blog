@@ -19,7 +19,7 @@ require_once __DIR__ . '/../../../config.php';
         <h1>Bienvenido</h1>
     </header>
     <div class="container">
-        <form action="../auth/login" method="post">
+        <form action="<?php echo PUBLIC_PATH; ?>auth/login" method="post">
             <div class="form-group">
                 <label for="username">Usuario:</label>
                 <input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES) : ''; ?>" required>

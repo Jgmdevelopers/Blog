@@ -13,7 +13,7 @@
     </style>
 </head>
 
-<body>
+<body style="height: 700px;">
     <header>
         <h1>Registro de Nuevo Usuario</h1>
     </header>

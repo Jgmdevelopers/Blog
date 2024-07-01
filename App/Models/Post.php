@@ -24,24 +24,33 @@ class Post
     public function getAllPostsFriends($user_id)
     {
         $query = '
-        SELECT p.*, u.username
+        SELECT DISTINCT p.*, u.username
         FROM posts p
         JOIN users u ON p.user_id = u.id
-        WHERE p.user_id IN (
-            SELECT friend_id
-            FROM friendships
-            WHERE user_id = :user_id
-            AND status = "accepted"
+        WHERE (
+            p.user_id IN (
+                SELECT friend_id
+                FROM friendships
+                WHERE user_id = :user_id
+                AND status = "accepted"
+            )
+            OR p.user_id IN (
+                SELECT user_id
+                FROM friendships
+                WHERE friend_id = :user_id
+                AND status = "accepted"
+            )
         )
         AND (p.visibility = "public" OR p.visibility = "friends")
         AND p.is_active = 1
         ORDER BY p.created_at DESC
-    ';
+        ';
         $this->db->query($query);
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
-
+    
+    
 
 
 

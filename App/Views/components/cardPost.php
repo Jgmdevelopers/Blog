@@ -49,10 +49,6 @@ require_once '../utils.php';
 
             </div>
 
-
-
-
-
             <h4><?php echo htmlspecialchars($post['title']); ?></h4>
 
             <?php if ($post['image_path']) : ?>

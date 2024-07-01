@@ -13,8 +13,9 @@
 </head>
 
 <body>
+    
     <?php
-    include '_partials/message.php';
+        include '_partials/message.php';
     ?>
 
 

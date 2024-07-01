@@ -123,3 +123,35 @@ p {
     margin-top: 10px;
 }
 
+.error-message{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.success-message{
+    color: green;
+}
+.error-message{
+    color: red;
+}
+
+.btn-custom {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Color del texto blanco */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    border-radius: 5px; /* Redondea las esquinas */
+    font-weight: bold; /* Hace el texto más grueso */
+}
+
+.btn-custom:hover {
+    background-color: #ff0000; /* Oscurece el fondo al pasar el mouse */
+    cursor: pointer; /* Cambia el cursor a puntero */
+}
+
+
