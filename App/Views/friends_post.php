@@ -48,10 +48,7 @@
     </div>
     <div class="container_amigos">
 
-        <div class="clima" id="clima">
-            <h2>Clima</h2>
-            <p>Cargando el clima...</p>
-        </div>
+    <?php include 'components/clima.php' ?>
         <div class="solicitudes">
             <h2>Solicitudes de Amistad</h2>
             <?php include 'components/solicitudes.php' ?>

@@ -263,21 +263,27 @@ ul {
     font-weight: bold;
 }
 
-.action-solicitud button{
-    margin: 5px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+.action-solicitud a button {
+    margin-right: 5px; /* Espacio entre los botones */
+    padding: 5px 10px; /* Espacio interno de los botones */
+    border: none; /* Sin borde */
+    background-color: #007bff; /* Color de fondo de los botones */
+    color: white; /* Color del texto de los botones */
+    cursor: pointer; /* Cambia el cursor al pasar sobre los botones */
+    border-radius: 5px; /* Bordes redondeados de los botones */
     transition: background-color 0.3s ease;
 }
-
-.friend-pending{
-    margin: 5px;
-    font-weight: bold;
+.action-solicitud a button:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el cursor sobre los botones */
 }
+
+.friend-pending {
+    font-size: 16px; /* Tamaño de fuente del nombre del usuario */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el desbordamiento del texto */
+    text-overflow: ellipsis; /* Añade puntos suspensivos al final del texto desbordado */
+}
+
 .friend-name{
     padding: 10px;
     font-weight: bold;

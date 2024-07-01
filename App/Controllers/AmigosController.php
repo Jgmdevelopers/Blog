@@ -16,41 +16,45 @@ class AmigosController {
         // Instancia del modelo Friendship
         $friendshipModel = new Friendship();
     
-        // Verificar si ya existe una solicitud de amistad pendiente o amistad aceptada
-        if ($friendshipModel->areFriends($userId, $friend_id)) {
+        // Verificar el estado de la relación existente
+        $status = $friendshipModel->getFriendshipStatus($userId, $friend_id);
+        $reverseStatus = $friendshipModel->getFriendshipStatus($friend_id, $userId);
+    
+        if ($status === 'accepted' || $reverseStatus === 'accepted') {
             // Si ya son amigos, redirige o muestra mensaje de error
             header('Location: ../dashboard/index');
             exit();
-        } else {
-            // Verificar si la solicitud de amistad anterior fue rechazada o está pendiente
-            $status = $friendshipModel->getFriendshipStatus($userId, $friend_id);
-            if ($status === 'pending') {
-                // Si la solicitud está pendiente, mostrar un mensaje de error o redirigir
-                header('Location: ../post/PostsGlobal');
-                exit();
-            } elseif ($status === 'blocked') {
-                // Si la solicitud anterior fue rechazada, no hacemos nada
+        } elseif ($status === 'pending' || $reverseStatus === 'pending') {
+            // Si la solicitud está pendiente, no hacer nada
+            header('Location: ../post/PostsGlobal');
+            exit();
+        } elseif ($status === 'blocked' || $reverseStatus === 'blocked') {
+            // Si la solicitud anterior fue rechazada, no hacemos nada
+            header('Location: ../post/PostsGlobal');
+            exit();
+        } elseif ($status === 'rejected') {
+            // Si la solicitud anterior fue rechazada, actualizar a pendiente
+            if ($friendshipModel->changeFriendshipStatus($userId, $friend_id, 'pending')) {
+                // Solicitud de amistad actualizada con éxito
                 header('Location: ../post/PostsGlobal');
                 exit();
             } else {
-                // Agregar una nueva solicitud de amistad si la relación no existe
-                if (!$friendshipModel->areFriends($userId, $friend_id)) {
-                    // Si la relación no existe, agregamos una nueva solicitud
-                    if ($friendshipModel->addFriendRequest($userId, $friend_id)) {
-                        // Solicitud de amistad enviada con éxito
-                        header('Location: ../post/PostsGlobal');
-                        exit();
-                    } else {
-                        // Error al enviar la solicitud de amistad
-                        echo "Error al enviar la solicitud de amistad.";
-                    }
-                } else {
-                    // Si la relación ya existe, mostramos un mensaje de error
-                    echo "La solicitud de amistad ya existe.";
-                }
+                // Error al actualizar la solicitud de amistad
+                echo "Error al actualizar la solicitud de amistad.";
+            }
+        } else {
+            // Agregar una nueva solicitud de amistad si la relación no existe
+            if ($friendshipModel->addFriendRequest($userId, $friend_id)) {
+                // Solicitud de amistad enviada con éxito
+                header('Location: ../post/PostsGlobal');
+                exit();
+            } else {
+                // Error al enviar la solicitud de amistad
+                echo "Error al enviar la solicitud de amistad.";
             }
         }
     }
+    
     
     
     
