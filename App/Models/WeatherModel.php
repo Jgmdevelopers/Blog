@@ -16,6 +16,7 @@ class WeatherModel {
             'lat' => $latitude,
             'lon' => $longitude,
             'key' => $this->apiKey,
+            'lang' => 'es'
         ];
 
         // Construir la URL completa con los parámetros
@@ -35,6 +36,7 @@ class WeatherModel {
             'country_code' => $weather['country_code'],
             'description' => $weather['weather']['description'],
             'temperature' => $weather['temp'],
+            'app_temp' => $weather['app_temp'],
         ];
 
         return $result;
