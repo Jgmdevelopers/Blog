@@ -32,7 +32,7 @@
     </div>
     <div class="main-container">
         
-    <?php
+        <?php
         include COMPONENTS_PATH . 'selector-main.php';
         ?>
        
@@ -49,6 +49,7 @@
             <?php include 'components/amigosQuizasConozca.php' ?>
         </div>
     </div>
+    
 
     <script>
         // Obtener la ubicación del usuario

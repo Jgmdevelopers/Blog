@@ -22,11 +22,16 @@ class AmigosController {
             header('Location: ../dashboard/index');
             exit();
         } else {
-            // Verificar si la solicitud de amistad anterior fue rechazada
+            // Verificar si la solicitud de amistad anterior fue rechazada o está pendiente
             $status = $friendshipModel->getFriendshipStatus($userId, $friend_id);
-            if ($status === 'rejected') {
+            if ($status === 'pending') {
+                // Si la solicitud está pendiente, mostrar un mensaje de error o redirigir
+                header('Location: ../post/PostsGlobal');
+                exit();
+            } elseif ($status === 'blocked') {
                 // Si la solicitud anterior fue rechazada, no hacemos nada
-                echo "La solicitud previa fue rechazada.";
+                header('Location: ../post/PostsGlobal');
+                exit();
             } else {
                 // Agregar una nueva solicitud de amistad si la relación no existe
                 if (!$friendshipModel->areFriends($userId, $friend_id)) {
@@ -46,6 +51,7 @@ class AmigosController {
             }
         }
     }
+    
     
     
 

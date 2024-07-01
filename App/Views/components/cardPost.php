@@ -34,15 +34,21 @@ require_once '../utils.php';
                                 <?php echo SVG_DELETE; ?>
                             </a>
                         <?php endif; ?>
-                       
+
                     </div>
                     <div class="addFrriend">
 
-                        <?php if ($post['visibility'] === 'public' && $post['user_id'] !== $_SESSION['user_id'] && !$post['is_friend']) : ?>
-                                <a href="<?php echo PUBLIC_PATH; ?>Amigos/agregarAmigo?friend_id=<?php echo $post['user_id']; ?>" class="dropdown-link">
-                                    <?php echo SVG_ADD_FRIEND; ?>
-                                </a>
-                            <?php endif; ?>
+                        <?php if (
+                            $post['visibility'] === 'public' &&
+                            $post['user_id'] !== $_SESSION['user_id'] &&
+                            !$post['is_friend'] &&
+                            ($user['estado_amistad'] !== 'pendiente' && $user['estado_amistad'] === 'rechazado')
+                        ) : ?>
+                            <a href="<?php echo PUBLIC_PATH; ?>Amigos/agregarAmigo?friend_id=<?php echo $post['user_id']; ?>" class="dropdown-link">
+                                <?php echo SVG_ADD_FRIEND; ?>
+                            </a>
+                        <?php endif; ?>
+
                     </div>
                 </div>
 

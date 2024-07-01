@@ -35,6 +35,7 @@
         <?php
         include COMPONENTS_PATH . 'selector-main.php';
         ?>
+       
         <div class="post-container">
 
             <div class="card-post">

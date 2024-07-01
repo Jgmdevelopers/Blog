@@ -299,6 +299,7 @@ ul {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
+
 .selector{
     justify-content: center;
     position: relative;
@@ -317,7 +318,7 @@ ul {
     transition: background-color 0.5s ease;
 }
 .selector_perfil:hover, .selector_amigos:hover{
-    background-color: #f0f0f0;
+    background-color: #808080;
     color: #000;
     border-radius: 10px;
     
@@ -325,6 +326,13 @@ ul {
 
 .selector_perfil a, .selector_amigos a{
     color: #f0f0f0;
+
+}
+.selector_perfil a.active, .selector_amigos a.active {
+    background-color: #808080; /* Fondo gris */
+    font-weight: bold; /* Estilo de texto activo */
+    border-radius: 10px; /* Redondear bordes */
+    padding: 20px;
 }
 
 

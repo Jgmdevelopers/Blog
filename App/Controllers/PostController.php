@@ -140,18 +140,25 @@ class PostController
         // Consultar el estado de amistad para cada usuario
         $friendshipModel = new Friendship();
         $availableUsers = [];
+        
         foreach ($users as $user) {
             $friendshipStatus = $friendshipModel->getFriendshipStatus($user_id, $user['id']);
+            
             if ($friendshipStatus === 'pending') {
                 $user['estado_amistad'] = 'pendiente';
-            } elseif ($friendshipStatus === 'accepted' || $friendshipStatus === 'blocked') {
-                // No hacemos nada si está bloqueado o aceptado
-                continue;
+            } elseif ($friendshipStatus === 'rejected') {
+                $user['estado_amistad'] = 'rechazado';
+            } elseif ($friendshipStatus === 'blocked') {
+                $user['estado_amistad'] = 'bloqueado';
+            } elseif ($friendshipStatus === 'accepted') {
+                $user['estado_amistad'] = 'aceptado';
             } else {
                 $user['estado_amistad'] = 'disponible';
             }
+        
             $availableUsers[] = $user;
         }
+        
     
         // Obtener la cantidad de "Me gusta" y comentarios para cada publicación
         $likeModel = new Like();
@@ -161,7 +168,9 @@ class PostController
             $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
             $post['is_friend'] = $friendshipModel->areFriends($user_id, $post['user_id']);
         }
-    
+
+
+       
         // Mostrar publicaciones, amigos y usuarios en la vista
         include_once '../app/views/public_post.php';
     }
