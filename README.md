@@ -1,6 +1,6 @@
 # Proyecto Final - Red Social Blog
 
-![Project Banner](img.png.png)
+![Project Banner](blog\Public\img\img.png)
 
 Este proyecto fue realizado como trabajo final del curso PHP Avanzado dictado por el municipio de 3 de Febrero. Es una red social tipo blog que permite a los usuarios subir post con diferentes niveles de visibilidad, interactuar con otros usuarios y mucho más.
 
