@@ -53,9 +53,9 @@ o
 
 ## Capturas de Pantalla
 
-![Pantalla de Inicio](ruta_a_tu_imagen_inicio.png)
-![Perfil del Usuario](ruta_a_tu_imagen_perfil.png)
-![Publicación](ruta_a_tu_imagen_publicacion.png)
+![Seccion amigos](Public/img/img2.png)
+![Seccion publico y comentarios](Public/img/img3.png)
+![Edicion de post](Public/img/img4.png)
 
 ## Contribuciones
 
