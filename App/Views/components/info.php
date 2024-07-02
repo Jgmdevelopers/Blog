@@ -7,5 +7,5 @@
     <p style="font-size: 18px; color: #666;">PHP Avanzado</p>
     <p style="font-weight: bold;">Jorge Gabriel Molina</p>
     <p style="font-style: italic;">Mail: gabrielmolina.ush@gmail.com</p>
-    <a href="">repositorio de Gibub</a>
+    <a href="https://github.com/Jgmdevelopers/Blog">repositorio de GitHub</a>
 </div>
