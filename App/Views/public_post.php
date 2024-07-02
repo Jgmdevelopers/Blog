@@ -27,7 +27,9 @@
     <div class="menu-container">
         <div class="menu">
             <?php include 'components/menu.php'; ?>
+            
         </div>
+        <?php include 'components/info.php' ?>
 
     </div>
     <div class="main-container">
@@ -40,9 +42,12 @@
             <?php include 'components/cardPost.php'; ?>
         </div>
     </div>
+    
+    
+    
     <div class="container_amigos">
-    <?php include 'components/clima.php' ?>
-        <div class="amigos">
+        <?php include 'components/clima.php' ?>
+        <div class="solicitudes">
             <?php include 'components/amigosQuizasConozca.php' ?>
         </div>
     </div>

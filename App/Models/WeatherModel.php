@@ -1,5 +1,4 @@
 <?php
-
 class WeatherModel {
     private $apiKey;
 
@@ -8,35 +7,44 @@ class WeatherModel {
     }
 
     public function getCurrentWeather($latitude, $longitude) {
-        // URL base de la API del clima
-        $baseUrl = "https://api.weatherbit.io/v2.0/current";
+        // URL base de la API de OpenWeatherMap
+        $baseUrl = "https://api.openweathermap.org/data/3.0/onecall";
 
         // Parámetros de la solicitud GET
         $params = [
             'lat' => $latitude,
             'lon' => $longitude,
-            'key' => $this->apiKey,
+            'exclude' => 'hourly,daily',
+            'appid' => $this->apiKey,
+            'units' => 'metric', // para obtener la temperatura en grados Celsius
             'lang' => 'es'
         ];
 
         // Construir la URL completa con los parámetros
         $url = $baseUrl . '?' . http_build_query($params);
+        
 
         // Realizar la solicitud GET a la API del clima
         $response = file_get_contents($url);
 
+        if ($response === FALSE) {
+            return null;
+        }
+
         // Decodificar la respuesta JSON
         $weatherData = json_decode($response, true);
 
+        if (!isset($weatherData['current'])) {
+            return null;
+        }
+
         // Extraer los datos relevantes del clima
-        $weather = $weatherData['data'][0]; // Tomar el primer resultado de la lista de datos (suponiendo que es el más relevante)
+        $currentWeather = $weatherData['current'];
 
         $result = [
-            'city_name' => $weather['city_name'],
-            'country_code' => $weather['country_code'],
-            'description' => $weather['weather']['description'],
-            'temperature' => $weather['temp'],
-            'app_temp' => $weather['app_temp'],
+            'description' => $currentWeather['weather'][0]['description'],
+            'temperature' => $currentWeather['temp'],
+            'feels_like' => $currentWeather['feels_like'],
         ];
 
         return $result;

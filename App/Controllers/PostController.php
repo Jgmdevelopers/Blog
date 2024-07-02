@@ -166,7 +166,7 @@ class PostController
         foreach ($posts as &$post) {
             $post['likes_count'] = $likeModel->getLikesCount($post['id']);
             $post['comments_count'] = $commentModel->getCommentsCount($post['id']);
-            $post['is_friend'] = $friendshipModel->areFriends($user_id, $post['user_id']);
+            $post['is_friend'] = $friendshipModel->getFriendshipStatus($user_id, $post['user_id']);
         }
 
 

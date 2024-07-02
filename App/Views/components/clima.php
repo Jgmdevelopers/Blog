@@ -1,40 +1,28 @@
-<div class="clima" id="clima">
-    <h2>Clima</h2>
-    <p>Cargando el clima...</p>
-</div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-
-                fetch(`<?php echo PUBLIC_PATH; ?>weather/getCurrentWeather?lat=${latitude}&lon=${longitude}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        var climaDiv = document.getElementById("clima");
-                        climaDiv.innerHTML = `
-                            <h2>Clima en ${data.city_name}, ${data.country_code}</h2>
-                            <p>${data.description}</p>
-                            <p>Temperatura: ${data.temperature} °C</p>
-                            <p>sensación térmica: ${data.app_temp} °C</p>
-                        `;
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener los datos del clima:', error);
-                        document.getElementById("clima").innerHTML = `<p>Error al cargar el clima: ${error.message}</p>`;
-                    });
-            }, function(error) {
-                console.error('Error al obtener la ubicación:', error);
-                document.getElementById("clima").innerHTML = `<p>Error al obtener la ubicación: ${error.message}</p>`;
-            });
-        } else {
-            document.getElementById("clima").innerHTML = `<p>Geolocalización no es soportada por este navegador.</p>`;
-        }
-    });
-</script>
+<div class="joke-container" id="joke">
+        <h2>Chiste del Día</h2>
+        <p class="loading">Cargando el chiste...</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('<?php echo PUBLIC_PATH; ?>jokes/getJoke')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var jokeDiv = document.getElementById("joke");
+                    jokeDiv.querySelector('.loading').style.display = 'none';
+                    if (data.type === "single") {
+                        jokeDiv.innerHTML += `<p>${data.joke}</p>`;
+                    } else if (data.type === "twopart") {
+                        jokeDiv.innerHTML += `<p>${data.setup}</p><p>${data.delivery}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener el chiste:', error);
+                    document.getElementById("joke").innerHTML = `<p>Error al cargar el chiste: ${error.message}</p>`;
+                });
+        });
+    </script>

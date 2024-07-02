@@ -1,7 +1,5 @@
 <?php
-
 require_once '../App/Models/WeatherModel.php';
-
 
 class WeatherController {
     public function getCurrentWeather() {
@@ -26,7 +24,7 @@ class WeatherController {
         $longitude = $_GET['lon'];
 
         // Crea una instancia del modelo WeatherModel con tu API key
-        $weatherModel = new WeatherModel('4b727d82ce714633b4d08db861ccd9e3'); // Reemplaza 'YOUR_API_KEY' con tu propia clave API
+        $weatherModel = new WeatherModel('374276418e2d678e5094585d19adb61d'); // Reemplaza 'YOUR_API_KEY' con tu propia clave API
 
         // Llama al método getCurrentWeather para obtener el clima actual
         $currentWeather = $weatherModel->getCurrentWeather($latitude, $longitude);

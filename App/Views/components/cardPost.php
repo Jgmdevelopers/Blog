@@ -38,11 +38,19 @@ require_once '../utils.php';
                     </div>
                     <div class="addFrriend">
 
-                        <?php if (
-                            $post['visibility'] === 'public' &&
-                            $post['user_id'] !== $_SESSION['user_id'] &&
-                            !$post['is_friend'] &&
-                            ($user['estado_amistad'] !== 'pendiente' && $user['estado_amistad'] === 'rechazado')
+                        <?php
+                      /*   echo '<pre>';
+                        echo 'Post Visibility: ' . $post['visibility'] . PHP_EOL;
+                        echo 'Post condicion 1: ' . ($post['user_id'] !== $_SESSION['user_id']) . PHP_EOL;
+                        echo 'Post condicion 2: ' .  ($post['is_friend'] === 'pending' && $post['is_friend'] === 'blocked') . PHP_EOL;
+                        echo 'Post User ID: ' . $post['user_id'] . PHP_EOL;
+                        echo 'Session User ID: ' . $_SESSION['user_id'] . PHP_EOL;
+                        echo 'Is Friend: ' . $post['is_friend'] . PHP_EOL;
+                       
+                        echo '</pre>';
+ */
+                        if ( $post['user_id'] !== $_SESSION['user_id'] &&
+                            ($post['is_friend'] != 'pending' && $post['is_friend'] != 'blocked' && $post['is_friend'] === '')
                         ) : ?>
                             <a href="<?php echo PUBLIC_PATH; ?>Amigos/agregarAmigo?friend_id=<?php echo $post['user_id']; ?>" class="dropdown-link">
                                 <?php echo SVG_ADD_FRIEND; ?>
