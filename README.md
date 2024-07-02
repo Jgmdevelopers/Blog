@@ -34,27 +34,31 @@ Este proyecto fue realizado como trabajo final del curso PHP Avanzado dictado po
 - **API de Chistes**: El proyecto incluye una API que muestra un chiste al azar.
 
 ## Estructura del Proyecto
+
 /
 ├── App/
-│ ├── Controllers/
-│ ├── Models/
-│ ├── Views/
+│   ├── Controllers/
+│   ├── Models/
+│   ├── Views/
 ├── Public/
-│ ├── css/
-│ ├── js/
-│ ├── images/
+│   ├── css/
+│   ├── js/
+│   ├── images/
 ├── core/
 ├── index.php
 └── README.md
 
 
-o
-    ```
 
 ## Capturas de Pantalla
 
+##Seccion Amigos
 ![Seccion amigos](Public/img/img2.png)
+
+##Seccion Publico y comentarios
 ![Seccion publico y comentarios](Public/img/img3.png)
+
+##Seccion de edicion
 ![Edicion de post](Public/img/img4.png)
 
 ## Contribuciones
